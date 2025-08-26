@@ -632,7 +632,7 @@
     <section class="search-section">
         <div class="search-container">
             <div class="search-bar">
-                <input type="text" class="search-input" placeholder="Buscar por ubicación, descripción o fuente..." id="searchInput">
+                <input type="text" class="search-input" placeholder="Buscar por titulo, descripción o fuente..." id="searchInput">
                 <button class="search-btn" onclick="searchFacts()">
                     <i data-lucide="search"></i> Buscar
                 </button>
@@ -663,6 +663,10 @@
                     <!-- Changed severity to veracidad -->
                     <select class="filter-select" id="veracidadFilter" onchange="filterFacts()">
                         <option value="">Todas las veracidades</option>
+                    </select>
+                    <!-- Added source filter -->
+                    <select class="filter-select" id="sourceFilter" onchange="filterFacts()">
+                        <option value="">Todas las fuentes</option>
                     </select>
                 </div>
             </div>
@@ -756,20 +760,20 @@
         const factsData = [
             {
                 id: "IF-2024-001",
-                title: "Incendio Forestal en Parque Nacional Nahuel Huapi",
-                location: "Bariloche, Río Negro",
+                title: "Gran Incendio en Parque Nacional Nahuel Huapi",
+                location: "San Carlos de Bariloche, Río Negro",
                 country: "Argentina", // Added country field
                 province: "Río Negro",
-                city: "Bariloche", // Added city field
-                category: "Parque Nacional", // Added category field
+                city: "San Carlos de Bariloche", // Added city field
+                category: "Incendio Forestal",
                 date: "15 de Enero, 2024",
                 dateISO: "2024-01-15", // Added ISO date for filtering
                 month: "Enero",
-                description: "Incendio de gran magnitud que afectó aproximadamente 2,500 hectáreas del Parque Nacional Nahuel Huapi. Las llamas se extendieron por zonas de bosque nativo y plantaciones forestales, requiriendo la evacuación de áreas turísticas cercanas.",
+                description: "Incendio de gran magnitud que afectó 2,500 hectáreas del Parque Nacional Nahuel Huapi, destruyendo bosques de lenga y coihue. El fuego amenazó infraestructura turística y requirió evacuación preventiva.",
                 veracidad: "Alta", // Changed severity to veracidad
                 area: "2,500 ha",
                 status: "Controlado",
-                source: "Servicio Nacional de Manejo del Fuego (SNMF)"
+                source: "Contribuyentes Propios"
             },
             {
                 id: "IF-2024-002",
@@ -778,7 +782,7 @@
                 country: "Argentina",
                 province: "Buenos Aires",
                 city: "Campana",
-                category: "Reserva Natural",
+                category: "Incendio Forestal",
                 date: "22 de Febrero, 2024",
                 dateISO: "2024-02-22",
                 month: "Febrero",
@@ -786,7 +790,7 @@
                 veracidad: "Alta",
                 area: "800 ha",
                 status: "Extinguido",
-                source: "Administración de Parques Nacionales"
+                source: "Contribuyentes Propios"
             },
             {
                 id: "IF-2024-003",
@@ -795,7 +799,7 @@
                 country: "Argentina",
                 province: "Córdoba",
                 city: "Villa Carlos Paz",
-                category: "Zona Urbana",
+                category: "Incendio Forestal",
                 date: "8 de Marzo, 2024",
                 dateISO: "2024-03-08",
                 month: "Marzo",
@@ -803,7 +807,7 @@
                 veracidad: "Alta",
                 area: "1,200 ha",
                 status: "Controlado",
-                source: "Plan Provincial de Manejo del Fuego - Córdoba"
+                source: "Informe Enero 2023 de Incendios Forestales"
             },
             {
                 id: "IF-2024-004",
@@ -812,7 +816,7 @@
                 country: "Argentina",
                 province: "San Juan",
                 city: "Valle Fértil",
-                category: "Parque Provincial",
+                category: "Incendio Forestal",
                 date: "14 de Abril, 2024",
                 dateISO: "2024-04-14",
                 month: "Abril",
@@ -820,7 +824,7 @@
                 veracidad: "Baja",
                 area: "150 ha",
                 status: "Extinguido",
-                source: "Dirección de Recursos Naturales - San Juan"
+                source: "Informe Abril 2024 de Incendios Forestales Argentina"
             },
             {
                 id: "IF-2024-005",
@@ -829,7 +833,7 @@
                 country: "Argentina",
                 province: "Buenos Aires",
                 city: "Tigre",
-                category: "Humedales",
+                category: "Incendio Forestal",
                 date: "3 de Mayo, 2024",
                 dateISO: "2024-05-03",
                 month: "Mayo",
@@ -837,7 +841,7 @@
                 veracidad: "Alta",
                 area: "5,000 ha",
                 status: "Controlado",
-                source: "Prefectura Naval Argentina"
+                source: "Contribuyentes Propios"
             },
             {
                 id: "IF-2024-006",
@@ -846,7 +850,7 @@
                 country: "Argentina",
                 province: "Misiones",
                 city: "Puerto Iguazú",
-                category: "Bosque Nativo",
+                category: "Incendio Forestal",
                 date: "18 de Junio, 2024",
                 dateISO: "2024-06-18",
                 month: "Junio",
@@ -854,7 +858,7 @@
                 veracidad: "Alta",
                 area: "900 ha",
                 status: "Controlado",
-                source: "Ministerio de Ecología - Misiones"
+                source: "Servicio de Bomberos"
             },
             {
                 id: "IF-2024-007",
@@ -863,7 +867,7 @@
                 country: "Argentina",
                 province: "Entre Ríos",
                 city: "Concordia",
-                category: "Plantación Forestal",
+                category: "Incendio Forestal",
                 date: "25 de Julio, 2024",
                 dateISO: "2024-07-25",
                 month: "Julio",
@@ -871,7 +875,7 @@
                 veracidad: "Alta",
                 area: "1,800 ha",
                 status: "Extinguido",
-                source: "INTA - Instituto Nacional de Tecnología Agropecuaria"
+                source: "Servicio de Bomberos"
             },
             {
                 id: "IF-2024-008",
@@ -880,7 +884,7 @@
                 country: "Argentina",
                 province: "Entre Ríos",
                 city: "Colón",
-                category: "Parque Nacional",
+                category: "Incendio Forestal",
                 date: "12 de Agosto, 2024",
                 dateISO: "2024-08-12",
                 month: "Agosto",
@@ -888,7 +892,7 @@
                 veracidad: "Alta",
                 area: "600 ha",
                 status: "Extinguido",
-                source: "Administración de Parques Nacionales"
+                source: "Servicio de Bomberos"
             },
             {
                 id: "IF-2024-009",
@@ -897,7 +901,7 @@
                 country: "Argentina",
                 province: "Misiones",
                 city: "San Pedro",
-                category: "Reserva de Biósfera",
+                category: "Incendio Forestal",
                 date: "7 de Septiembre, 2024",
                 dateISO: "2024-09-07",
                 month: "Septiembre",
@@ -905,7 +909,7 @@
                 veracidad: "Alta",
                 area: "1,100 ha",
                 status: "Controlado",
-                source: "Fundación Vida Silvestre Argentina"
+                source: "Contribuyentes Propios"
             },
             {
                 id: "IF-2024-010",
@@ -914,7 +918,7 @@
                 country: "Argentina",
                 province: "San Luis",
                 city: "Merlo",
-                category: "Zona Serrana",
+                category: "Incendio Forestal",
                 date: "23 de Octubre, 2024",
                 dateISO: "2024-10-23",
                 month: "Octubre",
@@ -922,41 +926,7 @@
                 veracidad: "Alta",
                 area: "2,200 ha",
                 status: "Controlado",
-                source: "Plan Provincial de Manejo del Fuego - San Luis"
-            },
-            {
-                id: "IF-2024-011",
-                title: "Incendio en Parque Nacional Calilegua",
-                location: "Ledesma, Jujuy",
-                country: "Argentina",
-                province: "Jujuy",
-                city: "Ledesma",
-                category: "Parque Nacional",
-                date: "9 de Noviembre, 2024",
-                dateISO: "2024-11-09",
-                month: "Noviembre",
-                description: "Incendio en yungas que afectó 750 hectáreas de selva de montaña, poniendo en riesgo la biodiversidad única de la región incluyendo especies de orquídeas y helechos endémicos.",
-                veracidad: "Baja",
-                area: "750 ha",
-                status: "Extinguido",
-                source: "Administración de Parques Nacionales"
-            },
-            {
-                id: "IF-2024-012",
-                title: "Incendio en Bosques Patagónicos",
-                location: "El Bolsón, Río Negro",
-                country: "Argentina",
-                province: "Río Negro",
-                city: "El Bolsón",
-                category: "Bosque Patagónico",
-                date: "15 de Diciembre, 2024",
-                dateISO: "2024-12-15",
-                month: "Diciembre",
-                description: "Incendio en bosques patagónicos que afectó 1,600 hectáreas de lenga y ñire, amenazando la cuenca hídrica de la región. Las condiciones climáticas adversas dificultaron las tareas de extinción.",
-                veracidad: "Alta",
-                area: "1,600 ha",
-                status: "Activo",
-                source: "Servicio Nacional de Manejo del Fuego (SNMF)"
+                source: "Contribuyentes Propios"
             }
         ];
 
@@ -968,6 +938,7 @@
             const cities = [...new Set(factsData.map(fact => fact.city))].sort();
             const categories = [...new Set(factsData.map(fact => fact.category))].sort();
             const veracidades = [...new Set(factsData.map(fact => fact.veracidad))].sort();
+            const sources = [...new Set(factsData.map(fact => fact.source))].sort();
 
             // Populate country filter
             const countryFilter = document.getElementById('countryFilter');
@@ -1012,6 +983,15 @@
                 option.value = veracidad;
                 option.textContent = veracidad;
                 veracidadFilter.appendChild(option);
+            });
+
+            // Populate source filter
+            const sourceFilter = document.getElementById('sourceFilter');
+            sources.forEach(source => {
+                const option = document.createElement('option');
+                option.value = source;
+                option.textContent = source;
+                sourceFilter.appendChild(option);
             });
         }
 
@@ -1074,6 +1054,7 @@
             const startDateFilter = document.getElementById('startDateFilter').value;
             const endDateFilter = document.getElementById('endDateFilter').value;
             const veracidadFilter = document.getElementById('veracidadFilter').value;
+            const sourceFilter = document.getElementById('sourceFilter').value;
             
             let filtered = [...filteredFacts];
             
@@ -1103,6 +1084,10 @@
             
             if (veracidadFilter) {
                 filtered = filtered.filter(fact => fact.veracidad === veracidadFilter);
+            }
+            
+            if (sourceFilter) {
+                filtered = filtered.filter(fact => fact.source === sourceFilter);
             }
             
             renderFacts(filtered);
