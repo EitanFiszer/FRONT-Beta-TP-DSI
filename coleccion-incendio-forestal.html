@@ -199,24 +199,66 @@
 
         .filters {
             display: flex;
-            gap: 1rem;
+            gap: 15px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .filter-select {
-            padding: 0.5rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 0.5rem;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
             background: white;
-            font-size: 0.9rem;
+            font-size: 14px;
+            color: #333;
             cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .filter-select:hover {
+            border-color: #ff6b35;
         }
 
         .filter-select:focus {
             outline: none;
-            border-color: var(--primary-color);
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        /* Added styles for date range filter */
+        .date-range-filter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-input {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .filter-input:hover {
+            border-color: #ff6b35;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .date-separator {
+            color: #666;
+            font-weight: 500;
         }
 
         /* Facts Section */
@@ -616,10 +658,9 @@
             <h1>🔥 Incendios Forestales Argentina 2024</h1>
             <p>Registro completo de incendios forestales ocurridos en Argentina durante el año 2024, incluyendo ubicaciones, extensión afectada y fuentes oficiales verificadas.</p>
             <div class="collection-meta">
-                <div class="meta-item">📅 Enero - Diciembre 2024</div>
+                <div class="meta-item">📅 2024</div>
                 <div class="meta-item">🌍 Argentina</div>
                 <div class="meta-item">🔥 12 hechos registrados</div>
-                <div class="meta-item">📊 Categoría: Ambiental</div>
             </div>
         </div>
     </section>
@@ -634,38 +675,26 @@
                 </button>
             </div>
             <div class="filters">
-                <select class="filter-select" id="provinceFilter" onchange="filterFacts()">
-                    <option value="">Todas las provincias</option>
-                    <option value="Buenos Aires">Buenos Aires</option>
-                    <option value="Córdoba">Córdoba</option>
-                    <option value="Entre Ríos">Entre Ríos</option>
-                    <option value="Misiones">Misiones</option>
-                    <option value="Río Negro">Río Negro</option>
-                    <option value="San Juan">San Juan</option>
-                    <option value="San Luis">San Luis</option>
-                    <option value="Jujuy">Jujuy</option>
+                <!-- Replaced province filter with more flexible location filter -->
+                <select class="filter-select" id="locationFilter" onchange="filterFacts()">
+                    <option value="">Todas las ubicaciones</option>
                 </select>
-                <select class="filter-select" id="monthFilter" onchange="filterFacts()">
-                    <option value="">Todos los meses</option>
-                    <option value="Enero">Enero</option>
-                    <option value="Febrero">Febrero</option>
-                    <option value="Marzo">Marzo</option>
-                    <option value="Abril">Abril</option>
-                    <option value="Mayo">Mayo</option>
-                    <option value="Junio">Junio</option>
-                    <option value="Julio">Julio</option>
-                    <option value="Agosto">Agosto</option>
-                    <option value="Septiembre">Septiembre</option>
-                    <option value="Octubre">Octubre</option>
-                    <option value="Noviembre">Noviembre</option>
-                    <option value="Diciembre">Diciembre</option>
+                <!-- Replaced year dropdown with date range inputs -->
+                <div class="date-range-filter">
+                    <input type="date" class="filter-input" id="startDateFilter" onchange="filterFacts()" placeholder="Fecha inicio">
+                    <span class="date-separator">-</span>
+                    <input type="date" class="filter-input" id="endDateFilter" onchange="filterFacts()" placeholder="Fecha fin">
+                </div>
+                <!-- Added source filter -->
+                <select class="filter-select" id="sourceFilter" onchange="filterFacts()">
+                    <option value="">Todas las fuentes</option>
                 </select>
                 <select class="filter-select" id="severityFilter" onchange="filterFacts()">
-                    <option value="">Todas las severidades</option>
-                    <option value="Bajo">Impacto Bajo</option>
-                    <option value="Medio">Impacto Medio</option>
-                    <option value="Alto">Impacto Alto</option>
-                    <option value="Crítico">Impacto Crítico</option>
+                    <option value="">Severidad</option>
+                    <option value="Bajo">Bajo</option>
+                    <option value="Medio">Medio</option>
+                    <option value="Alto">Alto</option>
+                    <option value="Crítico">Crítico</option>
                 </select>
             </div>
         </div>
@@ -767,7 +796,9 @@
                 severity: "Alto",
                 area: "2,500 ha",
                 status: "Controlado",
-                source: "Servicio Nacional de Manejo del Fuego (SNMF)"
+                source: "Servicio Nacional de Manejo del Fuego (SNMF)",
+                year: "2024",
+                region: "Patagonia"
             },
             {
                 id: "IF-2024-002",
@@ -780,7 +811,9 @@
                 severity: "Medio",
                 area: "800 ha",
                 status: "Extinguido",
-                source: "Administración de Parques Nacionales"
+                source: "Administración de Parques Nacionales",
+                year: "2024",
+                region: "Región Pampeana"
             },
             {
                 id: "IF-2024-003",
@@ -793,7 +826,9 @@
                 severity: "Alto",
                 area: "1,200 ha",
                 status: "Controlado",
-                source: "Plan Provincial de Manejo del Fuego - Córdoba"
+                source: "Bomberos Voluntarios",
+                year: "2024",
+                region: "Región Central"
             },
             {
                 id: "IF-2024-004",
@@ -806,7 +841,9 @@
                 severity: "Bajo",
                 area: "150 ha",
                 status: "Extinguido",
-                source: "Dirección de Recursos Naturales - San Juan"
+                source: "Dirección de Recursos Naturales - San Juan",
+                year: "2024",
+                region: "Región Cuyo"
             },
             {
                 id: "IF-2024-005",
@@ -819,7 +856,9 @@
                 severity: "Crítico",
                 area: "5,000 ha",
                 status: "Controlado",
-                source: "Prefectura Naval Argentina"
+                source: "Contribuyentes Locales",
+                year: "2024",
+                region: "Región Pampeana"
             },
             {
                 id: "IF-2024-006",
@@ -832,7 +871,9 @@
                 severity: "Alto",
                 area: "900 ha",
                 status: "Controlado",
-                source: "Ministerio de Ecología - Misiones"
+                source: "Ministerio de Ecología - Misiones",
+                year: "2024",
+                region: "Región Noreste"
             },
             {
                 id: "IF-2024-007",
@@ -845,7 +886,9 @@
                 severity: "Alto",
                 area: "1,800 ha",
                 status: "Extinguido",
-                source: "INTA - Instituto Nacional de Tecnología Agropecuaria"
+                source: "INTA - Instituto Nacional de Tecnología Agropecuaria",
+                year: "2024",
+                region: "Región Litoral"
             },
             {
                 id: "IF-2024-008",
@@ -858,7 +901,9 @@
                 severity: "Medio",
                 area: "600 ha",
                 status: "Extinguido",
-                source: "Administración de Parques Nacionales"
+                source: "Bomberos Voluntarios",
+                year: "2024",
+                region: "Región Litoral"
             },
             {
                 id: "IF-2024-009",
@@ -871,7 +916,9 @@
                 severity: "Alto",
                 area: "1,100 ha",
                 status: "Controlado",
-                source: "Fundación Vida Silvestre Argentina"
+                source: "Contribuyentes Locales",
+                year: "2024",
+                region: "Región Noreste"
             },
             {
                 id: "IF-2024-010",
@@ -884,7 +931,9 @@
                 severity: "Alto",
                 area: "2,200 ha",
                 status: "Controlado",
-                source: "Plan Provincial de Manejo del Fuego - San Luis"
+                source: "Plan Provincial de Manejo del Fuego - San Luis",
+                year: "2024",
+                region: "Región Cuyo"
             },
             {
                 id: "IF-2024-011",
@@ -897,7 +946,9 @@
                 severity: "Medio",
                 area: "750 ha",
                 status: "Extinguido",
-                source: "Administración de Parques Nacionales"
+                source: "Administración de Parques Nacionales",
+                year: "2024",
+                region: "Región Noroeste"
             },
             {
                 id: "IF-2024-012",
@@ -910,11 +961,53 @@
                 severity: "Alto",
                 area: "1,600 ha",
                 status: "Activo",
-                source: "Servicio Nacional de Manejo del Fuego (SNMF)"
+                source: "Bomberos Voluntarios",
+                year: "2024",
+                region: "Patagonia"
             }
         ];
 
         let filteredFacts = [...factsData];
+
+        function populateFilters() {
+            const locationFilter = document.getElementById('locationFilter');
+            const sourceFilter = document.getElementById('sourceFilter');
+            
+            // Get unique values for each filter
+            const locations = [...new Set(factsData.map(fact => fact.region))].sort();
+            const sources = [...new Set(factsData.map(fact => fact.source))].sort();
+            
+            // Populate location filter (regions)
+            locations.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location;
+                option.textContent = location;
+                locationFilter.appendChild(option);
+            });
+            
+            // Populate source filter
+            sources.forEach(source => {
+                const option = document.createElement('option');
+                option.value = source;
+                option.textContent = source;
+                sourceFilter.appendChild(option);
+            });
+
+            setDefaultDateRange();
+        }
+
+        function setDefaultDateRange() {
+            const dates = factsData.map(fact => new Date(fact.date)).sort((a, b) => a - b);
+            const minDate = dates[0];
+            const maxDate = dates[dates.length - 1];
+            
+            if (minDate && maxDate) {
+                document.getElementById('startDateFilter').min = minDate.toISOString().split('T')[0];
+                document.getElementById('endDateFilter').min = minDate.toISOString().split('T')[0];
+                document.getElementById('startDateFilter').max = maxDate.toISOString().split('T')[0];
+                document.getElementById('endDateFilter').max = maxDate.toISOString().split('T')[0];
+            }
+        }
 
         function renderFacts(facts) {
             const factsGrid = document.getElementById('factsGrid');
@@ -946,9 +1039,6 @@
                         <button class="action-btn view-btn" onclick="viewFact('${fact.id}')">
                             <i data-lucide="eye"></i> Ver Detalles
                         </button>
-                        <button class="action-btn report-btn" onclick="reportFact('${fact.id}')">
-                            <i data-lucide="flag"></i> Reportar
-                        </button>
                         <button class="action-btn delete-request-btn" onclick="openDeleteModal('${fact.id}', '${fact.title}')">
                             <i data-lucide="trash-2"></i> Eliminar
                         </button>
@@ -976,18 +1066,37 @@
         }
 
         function applyFilters() {
-            const provinceFilter = document.getElementById('provinceFilter').value;
-            const monthFilter = document.getElementById('monthFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value;
+            const startDateFilter = document.getElementById('startDateFilter').value;
+            const endDateFilter = document.getElementById('endDateFilter').value;
+            const sourceFilter = document.getElementById('sourceFilter').value;
             const severityFilter = document.getElementById('severityFilter').value;
             
             let filtered = [...filteredFacts];
             
-            if (provinceFilter) {
-                filtered = filtered.filter(fact => fact.province === provinceFilter);
+            if (locationFilter) {
+                filtered = filtered.filter(fact => fact.region === locationFilter);
             }
             
-            if (monthFilter) {
-                filtered = filtered.filter(fact => fact.month === monthFilter);
+            if (startDateFilter || endDateFilter) {
+                filtered = filtered.filter(fact => {
+                    const factDate = new Date(fact.date);
+                    const startDate = startDateFilter ? new Date(startDateFilter) : null;
+                    const endDate = endDateFilter ? new Date(endDateFilter) : null;
+                    
+                    if (startDate && endDate) {
+                        return factDate >= startDate && factDate <= endDate;
+                    } else if (startDate) {
+                        return factDate >= startDate;
+                    } else if (endDate) {
+                        return factDate <= endDate;
+                    }
+                    return true;
+                });
+            }
+            
+            if (sourceFilter) {
+                filtered = filtered.filter(fact => fact.source === sourceFilter);
             }
             
             if (severityFilter) {
@@ -996,6 +1105,12 @@
             
             renderFacts(filtered);
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            populateFilters();
+            renderFacts(factsData);
+            lucide.createIcons();
+        });
 
         function viewFact(factId) {
             const fact = factsData.find(f => f.id === factId);
@@ -1040,19 +1155,7 @@
         }
 
         // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            renderFacts(factsData);
-            
-            // Add enter key support for search
-            document.getElementById('searchInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    searchFacts();
-                }
-            });
-            
-            // Initialize Lucide icons
-            lucide.createIcons();
-        });
+        
 
         // Close modal when clicking outside
         window.onclick = function(event) {
