@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incendios Forestales Argentina 2024 - MetaMapa</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Using the same CSS variables and styling from the main landing page */
+        :root {
+            --primary-color: #0891b2;
+            --primary-hover: #0e7490;
+            --secondary-color: #f59e0b;
+            --text-color: #4b5563;
+            --text-light: #6b7280;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body { 
+            font-family: 'DM Sans', sans-serif; 
+            background: var(--background); 
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Navigation - same as landing page */
+        nav {
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0; 
+            z-index: 100;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-container {
+            max-width: 1200px; 
+            margin: auto; 
+            padding: 1rem 2rem;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            color: var(--primary-color); 
+            font-weight: 700; 
+            font-size: 1.5rem; 
+            text-decoration: none; 
+        }
+        
+        .nav-links { 
+            display: flex; 
+            gap: 2rem; 
+        }
+        
+        .nav-links a {
+            text-decoration: none; 
+            padding: 0.5rem 1rem; 
+            border-radius: 0.5rem;
+            color: var(--text-color); 
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-links a:hover { 
+            background: var(--primary-color); 
+            color: white; 
+            transform: translateY(-1px);
+        }
+
+        /* Collection Header - themed for forest fires */
+        .collection-header {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .collection-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('/placeholder.svg?height=400&width=1200') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .collection-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .collection-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .collection-header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+        }
+
+        .collection-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Search and Filters Section */
+        .search-section {
+            background: var(--surface);
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 300px;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .search-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            background: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Facts Section */
+        .facts-section {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .facts-count {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .fact-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .fact-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .fact-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .fact-date {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            background: var(--surface);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .fact-location {
+            color: #dc2626;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .fact-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .fact-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .fact-source {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+            padding-top: 0.75rem;
+        }
+
+        .fact-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .view-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .view-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .report-btn {
+            background: var(--surface);
+            color: var(--text-light);
+            border: 1px solid var(--border);
+        }
+
+        .report-btn:hover {
+            background: var(--border);
+        }
+
+        .delete-request-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .delete-request-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* Delete Request Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--text-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .cancel-btn {
+            background: var(--surface);
+            color: var(--text-light);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background: var(--border);
+        }
+
+        .submit-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* Footer - same as landing page */
+        footer {
+            background: var(--text-color); 
+            color: white;
+            text-align: center; 
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        footer a { 
+            color: var(--secondary-color); 
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        footer a:hover { 
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #6b7280;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media(max-width: 900px) {
+            .collection-header h1 {
+                font-size: 2rem;
+            }
+
+            .collection-meta {
+                gap: 1rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-input {
+                min-width: auto;
+            }
+
+            .filters {
+                justify-content: center;
+            }
+
+            .facts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .collection-header {
+                padding: 3rem 1rem;
+            }
+
+            .facts-section {
+                padding: 2rem 1rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i data-lucide="map"></i> 
+                MetaMapa
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="#nosotros">Nosotros</a>
+                <a href="explorar-hechos.html">Explorar</a>
+                <a href="login.html">Acceso</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Collection Header -->
+    <section class="collection-header">
+        <div class="collection-content">
+            <h1>🔥 Incendios Forestales Argentina 2024</h1>
+            <p>Registro completo de incendios forestales ocurridos en Argentina durante el año 2024, incluyendo ubicaciones, extensión afectada y fuentes oficiales verificadas.</p>
+            <div class="collection-meta">
+                <div class="meta-item">📅 Enero - Diciembre 2024</div>
+                <div class="meta-item">🌍 Argentina</div>
+                <div class="meta-item">🔥 12 hechos registrados</div>
+                <div class="meta-item">📊 Categoría: Ambiental</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search and Filters -->
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Buscar por ubicación, descripción o fuente..." id="searchInput">
+                <button class="search-btn" onclick="searchFacts()">
+                    <i data-lucide="search"></i> Buscar
+                </button>
+            </div>
+            <div class="filters">
+                <select class="filter-select" id="provinceFilter" onchange="filterFacts()">
+                    <option value="">Todas las provincias</option>
+                    <option value="Buenos Aires">Buenos Aires</option>
+                    <option value="Córdoba">Córdoba</option>
+                    <option value="Entre Ríos">Entre Ríos</option>
+                    <option value="Misiones">Misiones</option>
+                    <option value="Río Negro">Río Negro</option>
+                    <option value="San Juan">San Juan</option>
+                    <option value="San Luis">San Luis</option>
+                    <option value="Jujuy">Jujuy</option>
+                </select>
+                <select class="filter-select" id="monthFilter" onchange="filterFacts()">
+                    <option value="">Todos los meses</option>
+                    <option value="Enero">Enero</option>
+                    <option value="Febrero">Febrero</option>
+                    <option value="Marzo">Marzo</option>
+                    <option value="Abril">Abril</option>
+                    <option value="Mayo">Mayo</option>
+                    <option value="Junio">Junio</option>
+                    <option value="Julio">Julio</option>
+                    <option value="Agosto">Agosto</option>
+                    <option value="Septiembre">Septiembre</option>
+                    <option value="Octubre">Octubre</option>
+                    <option value="Noviembre">Noviembre</option>
+                    <option value="Diciembre">Diciembre</option>
+                </select>
+                <select class="filter-select" id="severityFilter" onchange="filterFacts()">
+                    <option value="">Todas las severidades</option>
+                    <option value="Bajo">Impacto Bajo</option>
+                    <option value="Medio">Impacto Medio</option>
+                    <option value="Alto">Impacto Alto</option>
+                    <option value="Crítico">Impacto Crítico</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facts Section -->
+    <section class="facts-section">
+        <div class="section-header">
+            <div>
+                <h2>Hechos Registrados</h2>
+                <p class="facts-count" id="factsCount">Mostrando 12 de 12 hechos</p>
+            </div>
+        </div>
+
+        <div class="facts-grid" id="factsGrid">
+            <!-- Facts will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Delete Request Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Solicitar Eliminación de Hecho</h3>
+                <button class="close-btn" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <form id="deleteRequestForm" onsubmit="submitDeleteRequest(event)">
+                <div class="form-group">
+                    <label class="form-label" for="factId">Hecho a Eliminar</label>
+                    <input type="text" class="form-input" id="factId" name="factId" required readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="factTitle">Título del Hecho</label>
+                    <input type="text" class="form-input" id="factTitle" name="factTitle" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="requestReason">Motivo de la Solicitud</label>
+                    <select class="form-select" id="requestReason" name="requestReason" required>
+                        <option value="">Seleccionar motivo</option>
+                        <option value="informacion-incorrecta">Información Incorrecta</option>
+                        <option value="duplicado">Hecho Duplicado</option>
+                        <option value="fuente-no-confiable">Fuente No Confiable</option>
+                        <option value="datos-desactualizados">Datos Desactualizados</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="requestDescription">Descripción Detallada</label>
+                    <textarea class="form-textarea" id="requestDescription" name="requestDescription" required placeholder="Explique detalladamente por qué considera que este hecho debe ser eliminado..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="requesterName">Su Nombre</label>
+                    <input type="text" class="form-input" id="requesterName" name="requesterName" required placeholder="Nombre completo">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="requesterEmail">Su Email</label>
+                    <input type="email" class="form-input" id="requesterEmail" name="requesterEmail" required placeholder="correo@ejemplo.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="requesterOrganization">Organización (Opcional)</label>
+                    <input type="text" class="form-input" id="requesterOrganization" name="requesterOrganization" placeholder="Nombre de su organización">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeDeleteModal()">Cancelar</button>
+                    <button type="submit" class="submit-btn">Enviar Solicitud</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="explorar-hechos.html">Explorar Hechos</a>
+                <a href="login.html">Registro / Iniciar Sesión</a>
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Términos de Uso</a>
+                <a href="#">Contacto</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MetaMapa. Sistema de código abierto para el bien común.</p>
+                <p>Desarrollado con ❤️ para organizaciones que buscan generar impacto social positivo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample facts data for forest fires in Argentina 2024
+        const factsData = [
+            {
+                id: "IF-2024-001",
+                title: "Incendio Forestal en Parque Nacional Nahuel Huapi",
+                location: "Bariloche, Río Negro",
+                date: "15 de Enero, 2024",
+                month: "Enero",
+                province: "Río Negro",
+                description: "Incendio de gran magnitud que afectó aproximadamente 2,500 hectáreas del Parque Nacional Nahuel Huapi. Las llamas se extendieron por zonas de bosque nativo y plantaciones forestales, requiriendo la evacuación de áreas turísticas cercanas.",
+                severity: "Alto",
+                area: "2,500 ha",
+                status: "Controlado",
+                source: "Servicio Nacional de Manejo del Fuego (SNMF)"
+            },
+            {
+                id: "IF-2024-002",
+                title: "Incendio en Reserva Natural Otamendi",
+                location: "Campana, Buenos Aires",
+                date: "22 de Febrero, 2024",
+                month: "Febrero",
+                province: "Buenos Aires",
+                description: "Incendio en pastizales y humedales de la Reserva Natural Otamendi que afectó la fauna local y destruyó 800 hectáreas de vegetación nativa. El fuego amenazó especies protegidas de aves acuáticas.",
+                severity: "Medio",
+                area: "800 ha",
+                status: "Extinguido",
+                source: "Administración de Parques Nacionales"
+            },
+            {
+                id: "IF-2024-003",
+                title: "Incendio Forestal en Sierras de Córdoba",
+                location: "Villa Carlos Paz, Córdoba",
+                date: "8 de Marzo, 2024",
+                month: "Marzo",
+                province: "Córdoba",
+                description: "Incendio que se originó en zona urbana y se extendió hacia el bosque serrano, afectando 1,200 hectáreas y amenazando viviendas en la periferia. Se evacuaron 150 familias como medida preventiva.",
+                severity: "Alto",
+                area: "1,200 ha",
+                status: "Controlado",
+                source: "Plan Provincial de Manejo del Fuego - Córdoba"
+            },
+            {
+                id: "IF-2024-004",
+                title: "Incendio en Parque Provincial Ischigualasto",
+                location: "Valle Fértil, San Juan",
+                date: "14 de Abril, 2024",
+                month: "Abril",
+                province: "San Juan",
+                description: "Incendio menor en zona árida del Parque Provincial Ischigualasto que afectó principalmente vegetación xerófila y formaciones rocosas. El acceso turístico fue temporalmente restringido.",
+                severity: "Bajo",
+                area: "150 ha",
+                status: "Extinguido",
+                source: "Dirección de Recursos Naturales - San Juan"
+            },
+            {
+                id: "IF-2024-005",
+                title: "Gran Incendio en Delta del Paraná",
+                location: "Tigre, Buenos Aires",
+                date: "3 de Mayo, 2024",
+                month: "Mayo",
+                province: "Buenos Aires",
+                description: "Incendio masivo en islas del Delta del Paraná que afectó 5,000 hectáreas de humedales, causando grave impacto ambiental y problemas respiratorios en la población del área metropolitana.",
+                severity: "Crítico",
+                area: "5,000 ha",
+                status: "Controlado",
+                source: "Prefectura Naval Argentina"
+            },
+            {
+                id: "IF-2024-006",
+                title: "Incendio en Bosque Nativo de Misiones",
+                location: "Puerto Iguazú, Misiones",
+                date: "18 de Junio, 2024",
+                month: "Junio",
+                province: "Misiones",
+                description: "Incendio en selva misionera que afectó 900 hectáreas de bosque atlántico, poniendo en riesgo especies endémicas de la región incluyendo el yaguareté y diversas especies de aves.",
+                severity: "Alto",
+                area: "900 ha",
+                status: "Controlado",
+                source: "Ministerio de Ecología - Misiones"
+            },
+            {
+                id: "IF-2024-007",
+                title: "Incendio en Plantación Forestal",
+                location: "Concordia, Entre Ríos",
+                date: "25 de Julio, 2024",
+                month: "Julio",
+                province: "Entre Ríos",
+                description: "Incendio en plantación de eucaliptos que se extendió a bosque nativo, afectando 1,800 hectáreas y generando pérdidas económicas significativas para la industria forestal local.",
+                severity: "Alto",
+                area: "1,800 ha",
+                status: "Extinguido",
+                source: "INTA - Instituto Nacional de Tecnología Agropecuaria"
+            },
+            {
+                id: "IF-2024-008",
+                title: "Incendio en Parque Nacional El Palmar",
+                location: "Colón, Entre Ríos",
+                date: "12 de Agosto, 2024",
+                month: "Agosto",
+                province: "Entre Ríos",
+                description: "Incendio que afectó palmares nativos y pastizales del Parque Nacional El Palmar, destruyendo 600 hectáreas de ecosistema único. Se implementaron medidas especiales para proteger las palmeras yatay.",
+                severity: "Medio",
+                area: "600 ha",
+                status: "Extinguido",
+                source: "Administración de Parques Nacionales"
+            },
+            {
+                id: "IF-2024-009",
+                title: "Incendio en Reserva de Biósfera Yabotí",
+                location: "San Pedro, Misiones",
+                date: "7 de Septiembre, 2024",
+                month: "Septiembre",
+                province: "Misiones",
+                description: "Incendio en área protegida de la Reserva de Biósfera Yabotí que afectó 1,100 hectáreas de selva paranaense y especies en peligro de extinción. Se activaron protocolos especiales de conservación.",
+                severity: "Alto",
+                area: "1,100 ha",
+                status: "Controlado",
+                source: "Fundación Vida Silvestre Argentina"
+            },
+            {
+                id: "IF-2024-010",
+                title: "Incendio en Sierras de San Luis",
+                location: "Merlo, San Luis",
+                date: "23 de Octubre, 2024",
+                month: "Octubre",
+                province: "San Luis",
+                description: "Incendio en zona serrana que afectó bosque nativo y amenazó centros turísticos, destruyendo 2,200 hectáreas de vegetación. El turismo de la región se vio severamente impactado.",
+                severity: "Alto",
+                area: "2,200 ha",
+                status: "Controlado",
+                source: "Plan Provincial de Manejo del Fuego - San Luis"
+            },
+            {
+                id: "IF-2024-011",
+                title: "Incendio en Parque Nacional Calilegua",
+                location: "Ledesma, Jujuy",
+                date: "9 de Noviembre, 2024",
+                month: "Noviembre",
+                province: "Jujuy",
+                description: "Incendio en yungas que afectó 750 hectáreas de selva de montaña, poniendo en riesgo la biodiversidad única de la región incluyendo especies de orquídeas y helechos endémicos.",
+                severity: "Medio",
+                area: "750 ha",
+                status: "Extinguido",
+                source: "Administración de Parques Nacionales"
+            },
+            {
+                id: "IF-2024-012",
+                title: "Incendio en Bosques Patagónicos",
+                location: "El Bolsón, Río Negro",
+                date: "15 de Diciembre, 2024",
+                month: "Diciembre",
+                province: "Río Negro",
+                description: "Incendio en bosques patagónicos que afectó 1,600 hectáreas de lenga y ñire, amenazando la cuenca hídrica de la región. Las condiciones climáticas adversas dificultaron las tareas de extinción.",
+                severity: "Alto",
+                area: "1,600 ha",
+                status: "Activo",
+                source: "Servicio Nacional de Manejo del Fuego (SNMF)"
+            }
+        ];
+
+        let filteredFacts = [...factsData];
+
+        function renderFacts(facts) {
+            const factsGrid = document.getElementById('factsGrid');
+            const factsCount = document.getElementById('factsCount');
+            
+            factsCount.textContent = `Mostrando ${facts.length} de ${factsData.length} hechos`;
+            
+            factsGrid.innerHTML = facts.map(fact => `
+                <div class="fact-card">
+                    <div class="fact-header">
+                        <div>
+                            <h3 class="fact-title">${fact.title}</h3>
+                            <div class="fact-location">
+                                <i data-lucide="map-pin"></i> ${fact.location}
+                            </div>
+                        </div>
+                        <div class="fact-date">${fact.date}</div>
+                    </div>
+                    <p class="fact-description">${fact.description}</p>
+                    <div class="fact-stats">
+                        <span class="stat-item">🔥 ${fact.area}</span>
+                        <span class="stat-item">📊 ${fact.severity}</span>
+                        <span class="stat-item">🚨 ${fact.status}</span>
+                    </div>
+                    <div class="fact-source">
+                        <strong>Fuente:</strong> ${fact.source}
+                    </div>
+                    <div class="fact-actions">
+                        <button class="action-btn view-btn" onclick="viewFact('${fact.id}')">
+                            <i data-lucide="eye"></i> Ver Detalles
+                        </button>
+                        <button class="action-btn report-btn" onclick="reportFact('${fact.id}')">
+                            <i data-lucide="flag"></i> Reportar
+                        </button>
+                        <button class="action-btn delete-request-btn" onclick="openDeleteModal('${fact.id}', '${fact.title}')">
+                            <i data-lucide="trash-2"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Re-initialize Lucide icons for new content
+            lucide.createIcons();
+        }
+
+        function searchFacts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            filteredFacts = factsData.filter(fact => 
+                fact.title.toLowerCase().includes(searchTerm) ||
+                fact.location.toLowerCase().includes(searchTerm) ||
+                fact.description.toLowerCase().includes(searchTerm) ||
+                fact.source.toLowerCase().includes(searchTerm)
+            );
+            applyFilters();
+        }
+
+        function filterFacts() {
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const provinceFilter = document.getElementById('provinceFilter').value;
+            const monthFilter = document.getElementById('monthFilter').value;
+            const severityFilter = document.getElementById('severityFilter').value;
+            
+            let filtered = [...filteredFacts];
+            
+            if (provinceFilter) {
+                filtered = filtered.filter(fact => fact.province === provinceFilter);
+            }
+            
+            if (monthFilter) {
+                filtered = filtered.filter(fact => fact.month === monthFilter);
+            }
+            
+            if (severityFilter) {
+                filtered = filtered.filter(fact => fact.severity === severityFilter);
+            }
+            
+            renderFacts(filtered);
+        }
+
+        function viewFact(factId) {
+            const fact = factsData.find(f => f.id === factId);
+            alert(`Detalles del hecho ${factId}:\n\n${fact.title}\n📍 ${fact.location}\n📅 ${fact.date}\n🔥 Área afectada: ${fact.area}\n📊 Severidad: ${fact.severity}\n🚨 Estado: ${fact.status}\n\n${fact.description}\n\nFuente: ${fact.source}`);
+        }
+
+        function reportFact(factId) {
+            alert(`Reportar hecho ${factId} - Esta funcionalidad estará disponible próximamente para reportar información incorrecta o problemática.`);
+        }
+
+        function openDeleteModal(factId = '', factTitle = '') {
+            document.getElementById('deleteModal').style.display = 'block';
+            // Pre-populate the form with the selected fact information
+            if (factId) {
+                document.getElementById('factId').value = factId;
+                document.getElementById('factTitle').value = factTitle;
+            }
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            document.getElementById('deleteRequestForm').reset();
+        }
+
+        function submitDeleteRequest(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const requestData = {
+                factId: formData.get('factId'),
+                reason: formData.get('requestReason'),
+                description: formData.get('requestDescription'),
+                requesterName: formData.get('requesterName'),
+                requesterEmail: formData.get('requesterEmail'),
+                requesterOrganization: formData.get('requesterOrganization')
+            };
+            
+            // Simulate form submission
+            alert(`✅ Solicitud de eliminación enviada exitosamente.\n\n📋 ID del hecho: ${requestData.factId}\n🔍 Motivo: ${requestData.reason}\n👤 Solicitante: ${requestData.requesterName}\n\n📧 Recibirá una confirmación por email en las próximas 24 horas.\n\nNuestro equipo de moderación revisará su solicitud y se pondrá en contacto si necesita información adicional.`);
+            
+            closeDeleteModal();
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderFacts(factsData);
+            
+            // Add enter key support for search
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchFacts();
+                }
+            });
+            
+            // Initialize Lucide icons
+            lucide.createIcons();
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target === modal) {
+                closeDeleteModal();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MetaMapa - Panel del Contribuyente</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+  <!-- Added DM Sans font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Updated CSS variables to use design brief colors and improved styling */
+    :root {
+      --primary-color: #0891b2;
+      --primary-hover: #0e7490;
+      --secondary-color: #f59e0b;
+      --text-color: #4b5563;
+      --text-light: #6b7280;
+      --background: #ffffff;
+      --surface: #f9fafb;
+      --border: #e5e7eb;
+      --shadow: 0 4px 6px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
+    /* Updated font family to DM Sans and improved base styles */
+    body { 
+      font-family: 'DM Sans', sans-serif; 
+      background: var(--background); 
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Enhanced navbar with better styling and sticky behavior */
+    nav {
+      background: var(--background);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0; 
+      z-index: 100;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    
+    .nav-container {
+      max-width: 1200px; 
+      margin: auto; 
+      padding: 1rem 2rem;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+    }
+    
+    .logo { 
+      display: flex; 
+      align-items: center; 
+      gap: 0.5rem; 
+      color: var(--primary-color); 
+      font-weight: 700; 
+      font-size: 1.5rem; 
+      text-decoration: none; 
+    }
+    
+    .nav-links { 
+      display: flex; 
+      gap: 2rem; 
+    }
+    
+    .nav-links a {
+      text-decoration: none; 
+      padding: 0.5rem 1rem; 
+      border-radius: 0.5rem;
+      color: var(--text-color); 
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-links a:hover { 
+      background: var(--primary-color); 
+      color: white; 
+      transform: translateY(-1px);
+    }
+
+    /* Modified hero section for contributor dashboard */
+    .hero {
+      text-align: center; 
+      padding: 4rem 2rem;
+      background: linear-gradient(135deg, var(--primary-color) 0%, #0e7490 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('/placeholder.svg?height=400&width=1200') center/cover;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .hero h1 { 
+      font-size: 2.8rem; 
+      font-weight: 700; 
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    
+    .hero p { 
+      font-size: 1.2rem; 
+      opacity: 0.95; 
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Added primary action button styling */
+    .btn-primary {
+      padding: 1.2rem 2.5rem; 
+      background: var(--secondary-color); 
+      color: white;
+      border: none; 
+      border-radius: 0.75rem; 
+      font-weight: 600;
+      font-size: 1.2rem;
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-lg);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .btn-primary:hover { 
+      background: #d97706; 
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .btn {
+      padding: 1rem 2rem; 
+      background: white; 
+      color: var(--primary-color);
+      border: none; 
+      border-radius: 0.75rem; 
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-lg);
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn:hover { 
+      background: var(--surface); 
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    /* Enhanced section styling with better spacing */
+    section { 
+      padding: 4rem 2rem; 
+      max-width: 1200px; 
+      margin: auto; 
+    }
+    
+    section h2 { 
+      text-align: center; 
+      font-size: 2.2rem; 
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--text-light);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Improved grid and card styling */
+    .grid { 
+      display: grid; 
+      gap: 2rem; 
+    }
+    
+    .grid-2 { 
+      grid-template-columns: repeat(2, 1fr); 
+    }
+    
+    .grid-3 { 
+      grid-template-columns: repeat(3, 1fr); 
+    }
+    
+    .card {
+      background: var(--surface); 
+      border: 1px solid var(--border); 
+      border-radius: 1rem;
+      padding: 2rem; 
+      text-align: center; 
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: white;
+    }
+    
+    .card h3 { 
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+    
+    .card p { 
+      font-size: 1rem; 
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Added action cards with buttons */
+    .action-card {
+      background: var(--surface); 
+      border: 1px solid var(--border); 
+      border-radius: 1rem;
+      padding: 2.5rem; 
+      text-align: center; 
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .action-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-color);
+    }
+    
+    .action-card .card-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      color: white;
+    }
+
+    /* Enhanced footer styling */
+    footer {
+      background: var(--text-color); 
+      color: white;
+      text-align: center; 
+      padding: 3rem 2rem 2rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    footer a { 
+      color: var(--secondary-color); 
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    footer a:hover { 
+      color: white;
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid #6b7280;
+      padding-top: 2rem;
+      margin-top: 2rem;
+      color: #9ca3af;
+    }
+
+    /* Enhanced responsive design */
+    @media(max-width: 900px) {
+      .grid-3, .grid-2 { 
+        grid-template-columns: 1fr; 
+      }
+      
+      .hero h1 { 
+        font-size: 2.2rem; 
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .nav-container {
+        padding: 1rem;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+      }
+      
+      section {
+        padding: 3rem 1rem;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+    
+    @media(max-width: 600px) {
+      .hero {
+        padding: 3rem 1rem;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      section h2 {
+        font-size: 1.8rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Enhanced navbar with better structure -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i data-lucide="map"></i> 
+        MetaMapa
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Inicio</a>
+        <a href="explorar-hechos.html">Explorar</a>
+        <a href="index-contribuyente.html">Mi Panel</a>
+        <a href="login.html">Cerrar Sesión</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Modified hero section for contributor welcome -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Bienvenido, Contribuyente</h1>
+      <p>Comparte información valiosa y ayuda a construir un mapa colaborativo de datos confiables</p>
+      <a href="subir-hecho.html" class="btn-primary">
+        <i data-lucide="plus-circle"></i>
+        Subir Nuevo Hecho
+      </a>
+    </div>
+  </header>
+
+  <!-- Added contributor actions section -->
+  <section>
+    <h2>Acciones Principales</h2>
+    <p class="section-subtitle">
+      Gestiona tus contribuciones y explora la información colaborativa
+    </p>
+    <div class="grid grid-2">
+      <div class="action-card">
+        <div class="card-icon">
+          <i data-lucide="upload"></i>
+        </div>
+        <h3>Subir Nuevo Hecho</h3>
+        <p>Contribuye con información nueva agregando hechos con título, descripción, ubicación, fecha y multimedia.</p>
+        <a href="subir-hecho.html" class="btn">Crear Hecho</a>
+      </div>
+      <div class="action-card">
+        <div class="card-icon">
+          <i data-lucide="edit-3"></i>
+        </div>
+        <h3>Mis Contribuciones</h3>
+        <p>Revisa y edita los hechos que has creado. Puedes modificarlos durante los primeros 7 días.</p>
+        <a href="mis-contribuciones.html" class="btn">Ver Mis Hechos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modified examples section for contributor context -->
+  <section>
+    <h2>Categorías Populares</h2>
+    <p class="section-subtitle">
+      Explora las categorías más activas donde puedes contribuir con información
+    </p>
+    <div class="grid grid-3">
+      <div class="card" onclick="window.location.href='coleccion-incendio-forestal.html'" style="cursor:pointer;">
+        <div class="card-icon">
+          <i data-lucide="flame"></i>
+        </div>
+        <h3>Incendios Forestales</h3>
+        <p>Registro colaborativo de focos de incendios forestales y su impacto ambiental.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <i data-lucide="car"></i>
+        </div>
+        <h3>Accidentes Viales</h3>
+        <p>Documentación de accidentes automovilísticos para identificar patrones de riesgo.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <i data-lucide="cloud-rain"></i>
+        </div>
+        <h3>Eventos Climáticos</h3>
+        <p>Registro detallado de huracanes, tormentas y otros fenómenos meteorológicos.</p>
+      </div>
+    </div>
+
+    <!-- Botón centrado -->
+    <div style="display: flex; justify-content: center; margin-top: 2rem;">
+      <a href="explorar-hechos.html" class="btn">
+        Explorar Todos los Hechos
+      </a>
+    </div>
+  </section>
+
+  <!-- Enhanced footer with better organization -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="explorar-hechos.html">Explorar Hechos</a>
+        <a href="subir-hecho.html">Subir Hecho</a>
+        <a href="mis-contribuciones.html">Mis Contribuciones</a>
+        <a href="#">Ayuda</a>
+        <a href="#">Contacto</a>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 MetaMapa. Sistema de código abierto para el bien común.</p>
+        <p>Desarrollado con ❤️ para organizaciones que buscan generar impacto social positivo.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

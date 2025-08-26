@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Hecho - MetaMapa</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #0891b2;
+      --primary-hover: #0e7490;
+      --secondary-color: #f59e0b;
+      --text-color: #4b5563;
+      --text-light: #6b7280;
+      --background: #ffffff;
+      --surface: #f9fafb;
+      --border: #e5e7eb;
+      --shadow: 0 4px 6px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+      --success: #10b981;
+      --error: #dc2626;
+    }
+    
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
+    body { 
+      font-family: 'DM Sans', sans-serif; 
+      background: var(--background); 
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Navbar styling consistent with other pages */
+    nav {
+      background: var(--background);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0; 
+      z-index: 100;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    
+    .nav-container {
+      max-width: 1200px; 
+      margin: auto; 
+      padding: 1rem 2rem;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+    }
+    
+    .logo { 
+      display: flex; 
+      align-items: center; 
+      gap: 0.5rem; 
+      color: var(--primary-color); 
+      font-weight: 700; 
+      font-size: 1.5rem; 
+      text-decoration: none; 
+    }
+    
+    .nav-links { 
+      display: flex; 
+      gap: 2rem; 
+    }
+    
+    .nav-links a {
+      text-decoration: none; 
+      padding: 0.5rem 1rem; 
+      border-radius: 0.5rem;
+      color: var(--text-color); 
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-links a:hover { 
+      background: var(--primary-color); 
+      color: white; 
+      transform: translateY(-1px);
+    }
+
+    /* Main container */
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    /* Page header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem 0;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: 1rem;
+    }
+
+    .page-header p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Form styling */
+    .form-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: var(--text-color);
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-family: inherit;
+      background: var(--background);
+      color: var(--text-color);
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* File upload styling */
+    .file-upload {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .file-upload input[type="file"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 2rem;
+      border: 2px dashed var(--border);
+      border-radius: 0.5rem;
+      background: var(--background);
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .file-upload-label:hover {
+      border-color: var(--primary-color);
+      background: var(--surface);
+    }
+
+    /* Anonymous checkbox styling */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary-color);
+    }
+
+    .checkbox-group label {
+      margin: 0;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* Button styling */
+    .btn {
+      padding: 0.875rem 2rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text-color);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    /* Form actions */
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Success message */
+    .success-message {
+      background: var(--success);
+      color: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+
+    /* Grid layout for form fields */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .form-grid .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* Footer styling consistent with other pages */
+    footer {
+      background: var(--text-color); 
+      color: white;
+      text-align: center; 
+      padding: 3rem 2rem 2rem;
+      margin-top: 4rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    footer a { 
+      color: var(--secondary-color); 
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    footer a:hover { 
+      color: white;
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid #6b7280;
+      padding-top: 2rem;
+      margin-top: 2rem;
+      color: #9ca3af;
+    }
+
+    /* Responsive design */
+    @media(max-width: 768px) {
+      .container {
+        padding: 0 1rem;
+      }
+
+      .form-container {
+        padding: 1.5rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .nav-container {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .page-header h1 {
+        font-size: 2rem;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+
+    @media(max-width: 600px) {
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar consistent with other pages -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i data-lucide="map"></i> 
+        MetaMapa
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Inicio</a>
+        <a href="index.html#nosotros">Nosotros</a>
+        <a href="explorar-hechos.html">Explorar</a>
+        <a href="login.html">Acceso</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Page header -->
+    <div class="page-header">
+      <h1>Crear Nuevo Hecho</h1>
+      <p>Contribuye con información valiosa para nuestra comunidad. Todos los campos marcados con * son obligatorios.</p>
+    </div>
+
+    <!-- Success message -->
+    <div class="success-message" id="successMessage">
+      <i data-lucide="check-circle"></i>
+      ¡Hecho creado exitosamente! Tu contribución ha sido registrada.
+    </div>
+
+    <!-- Main form -->
+    <div class="form-container">
+      <form id="crearHechoForm">
+        <div class="form-grid">
+          <!-- Título -->
+          <div class="form-group full-width">
+            <label for="titulo">Título del Hecho *</label>
+            <input type="text" id="titulo" name="titulo" required placeholder="Ingresa un título descriptivo">
+          </div>
+
+          <!-- Categoría -->
+          <div class="form-group">
+            <label for="categoria">Categoría *</label>
+            <select id="categoria" name="categoria" required>
+              <option value="">Selecciona una categoría</option>
+              <option value="incendio-forestal">Incendio Forestal</option>
+              <option value="accidente-vial">Accidente Vial</option>
+              <option value="fenomeno-natural">Fenómeno Natural</option>
+              <option value="evento-social">Evento Social</option>
+              <option value="infraestructura">Infraestructura</option>
+              <option value="medio-ambiente">Medio Ambiente</option>
+              <option value="seguridad">Seguridad</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+
+          <!-- Fecha -->
+          <div class="form-group">
+            <label for="fecha">Fecha del Hecho *</label>
+            <input type="datetime-local" id="fecha" name="fecha" required>
+          </div>
+
+          <!-- Ubicación -->
+          <div class="form-group full-width">
+            <label for="ubicacion">Ubicación *</label>
+            <input type="text" id="ubicacion" name="ubicacion" required placeholder="Dirección, coordenadas o descripción del lugar">
+          </div>
+
+          <!-- Descripción -->
+          <div class="form-group full-width">
+            <label for="descripcion">Descripción *</label>
+            <textarea id="descripcion" name="descripcion" required placeholder="Describe detalladamente el hecho ocurrido..."></textarea>
+          </div>
+
+          <!-- Multimedia -->
+          <div class="form-group full-width">
+            <label for="multimedia">Multimedia (Opcional)</label>
+            <div class="file-upload">
+              <input type="file" id="multimedia" name="multimedia" multiple accept="image/*,video/*,audio/*">
+              <div class="file-upload-label">
+                <i data-lucide="upload"></i>
+                <span>Arrastra archivos aquí o haz clic para seleccionar</span>
+              </div>
+            </div>
+            <small style="color: var(--text-light); margin-top: 0.5rem; display: block;">
+              Formatos soportados: JPG, PNG, MP4, MP3. Máximo 10MB por archivo.
+            </small>
+          </div>
+        </div>
+
+        <!-- Opción anónima -->
+        <div class="checkbox-group">
+          <input type="checkbox" id="anonimo" name="anonimo">
+          <label for="anonimo">Publicar como contribución anónima</label>
+        </div>
+
+        <!-- Form actions -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+            <i data-lucide="arrow-left"></i>
+            Cancelar
+          </button>
+          <button type="submit" class="btn">
+            <i data-lucide="save"></i>
+            Crear Hecho
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Information about editing -->
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.5rem; padding: 1.5rem; margin-top: 2rem;">
+      <h3 style="color: var(--text-color); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i data-lucide="info"></i>
+        Información importante
+      </h3>
+      <p style="color: var(--text-light); margin-bottom: 0.5rem;">
+        • Los usuarios registrados pueden editar sus hechos durante los primeros 7 días después de la publicación.
+      </p>
+      <p style="color: var(--text-light); margin-bottom: 0.5rem;">
+        • Las contribuciones anónimas no pueden ser editadas posteriormente.
+      </p>
+      <p style="color: var(--text-light);">
+        • Toda la información será revisada por moderadores antes de su publicación final.
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer consistent with other pages -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="explorar-hechos.html">Explorar Hechos</a>
+        <a href="login.html">Registro / Iniciar Sesión</a>
+        <a href="#">Política de Privacidad</a>
+        <a href="#">Términos de Uso</a>
+        <a href="#">Contacto</a>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 MetaMapa. Sistema de código abierto para el bien común.</p>
+        <p>Desarrollado con ❤️ para organizaciones que buscan generar impacto social positivo.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // Form submission handling
+    document.getElementById('crearHechoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form data
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+      
+      // Simulate form submission
+      console.log('Datos del hecho:', data);
+      
+      // Show success message
+      document.getElementById('successMessage').style.display = 'block';
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Reset form after 2 seconds
+      setTimeout(() => {
+        this.reset();
+        document.getElementById('successMessage').style.display = 'none';
+      }, 3000);
+    });
+
+    // File upload feedback
+    document.getElementById('multimedia').addEventListener('change', function(e) {
+      const files = e.target.files;
+      const label = document.querySelector('.file-upload-label span');
+      
+      if (files.length > 0) {
+        label.textContent = `${files.length} archivo(s) seleccionado(s)`;
+      } else {
+        label.textContent = 'Arrastra archivos aquí o haz clic para seleccionar';
+      }
+    });
+
+    // Set current date as default
+    document.getElementById('fecha').valueAsDate = new Date();
+  </script>
+</body>
+</html>
