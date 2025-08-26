@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incendios Forestales Argentina 2024 - MetaMapa</title>
+    <title>Incendios Forestales Argentina - MetaMapa</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -655,10 +655,9 @@
     <!-- Collection Header -->
     <section class="collection-header">
         <div class="collection-content">
-            <h1>🔥 Incendios Forestales Argentina 2024</h1>
-            <p>Registro completo de incendios forestales ocurridos en Argentina durante el año 2024, incluyendo ubicaciones, extensión afectada y fuentes oficiales verificadas.</p>
+            <h1>🔥 Incendios Forestales Argentina</h1>
+            <p>Registro completo de incendios forestales ocurridos en Argentina, incluyendo ubicaciones, extensión afectada y fuentes oficiales verificadas.</p>
             <div class="collection-meta">
-                <div class="meta-item">📅 2024</div>
                 <div class="meta-item">🌍 Argentina</div>
                 <div class="meta-item">🔥 12 hechos registrados</div>
             </div>
@@ -669,15 +668,23 @@
     <section class="search-section">
         <div class="search-container">
             <div class="search-bar">
-                <input type="text" class="search-input" placeholder="Buscar por ubicación, descripción o fuente..." id="searchInput">
+                <input type="text" class="search-input" placeholder="Buscar por titulo, descripción..." id="searchInput">
                 <button class="search-btn" onclick="searchFacts()">
                     <i data-lucide="search"></i> Buscar
                 </button>
             </div>
             <div class="filters">
                 <!-- Replaced province filter with more flexible location filter -->
-                <select class="filter-select" id="locationFilter" onchange="filterFacts()">
-                    <option value="">Todas las ubicaciones</option>
+                <select class="filter-select" id="countryFilter" onchange="updateProvinces(); applyFilters()">
+                    <option value="">Todos los países</option>
+                </select>
+
+                <select class="filter-select" id="provinceFilter" onchange="updateCities(); applyFilters()">
+                    <option value="">Todas las provincias</option>
+                </select>
+
+                <select class="filter-select" id="cityFilter" onchange="applyFilters()">
+                    <option value="">Todas las ciudades</option>
                 </select>
                 <!-- Replaced year dropdown with date range inputs -->
                 <div class="date-range-filter">
@@ -689,12 +696,10 @@
                 <select class="filter-select" id="sourceFilter" onchange="filterFacts()">
                     <option value="">Todas las fuentes</option>
                 </select>
-                <select class="filter-select" id="severityFilter" onchange="filterFacts()">
-                    <option value="">Severidad</option>
+                <select class="filter-select" id="veracityFilter" onchange="filterFacts()">
+                    <option value="">Veracidad</option>
                     <option value="Bajo">Bajo</option>
-                    <option value="Medio">Medio</option>
                     <option value="Alto">Alto</option>
-                    <option value="Crítico">Crítico</option>
                 </select>
             </div>
         </div>
@@ -788,382 +793,356 @@
             {
                 id: "IF-2024-001",
                 title: "Incendio Forestal en Parque Nacional Nahuel Huapi",
-                location: "Bariloche, Río Negro",
+                location: "Bariloche, Río Negro, Argentina",
                 date: "15 de Enero, 2024",
                 month: "Enero",
                 province: "Río Negro",
                 description: "Incendio de gran magnitud que afectó aproximadamente 2,500 hectáreas del Parque Nacional Nahuel Huapi. Las llamas se extendieron por zonas de bosque nativo y plantaciones forestales, requiriendo la evacuación de áreas turísticas cercanas.",
-                severity: "Alto",
+                veracity: "Alto",
                 area: "2,500 ha",
                 status: "Controlado",
                 source: "Servicio Nacional de Manejo del Fuego (SNMF)",
                 year: "2024",
-                region: "Patagonia"
+                region: "Patagonia",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-002",
                 title: "Incendio en Reserva Natural Otamendi",
-                location: "Campana, Buenos Aires",
+                location: "Campana, Buenos Aires, Argentina",
                 date: "22 de Febrero, 2024",
                 month: "Febrero",
                 province: "Buenos Aires",
                 description: "Incendio en pastizales y humedales de la Reserva Natural Otamendi que afectó la fauna local y destruyó 800 hectáreas de vegetación nativa. El fuego amenazó especies protegidas de aves acuáticas.",
-                severity: "Medio",
+                veracity: "Bajo",
                 area: "800 ha",
                 status: "Extinguido",
-                source: "Administración de Parques Nacionales",
+                source: "Informe de Incendios del 2024",
                 year: "2024",
-                region: "Región Pampeana"
+                region: "Región Pampeana",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-003",
                 title: "Incendio Forestal en Sierras de Córdoba",
-                location: "Villa Carlos Paz, Córdoba",
+                location: "Villa Carlos Paz, Córdoba, Argentina",
                 date: "8 de Marzo, 2024",
                 month: "Marzo",
                 province: "Córdoba",
                 description: "Incendio que se originó en zona urbana y se extendió hacia el bosque serrano, afectando 1,200 hectáreas y amenazando viviendas en la periferia. Se evacuaron 150 familias como medida preventiva.",
-                severity: "Alto",
+                veracity: "Alto",
                 area: "1,200 ha",
                 status: "Controlado",
-                source: "Bomberos Voluntarios",
+                source: "Servicio de Bomberos Voluntarios",
                 year: "2024",
-                region: "Región Central"
+                region: "Región Central",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-004",
                 title: "Incendio en Parque Provincial Ischigualasto",
-                location: "Valle Fértil, San Juan",
+                location: "Valle Fértil, San Juan, Argentina",
                 date: "14 de Abril, 2024",
                 month: "Abril",
                 province: "San Juan",
                 description: "Incendio menor en zona árida del Parque Provincial Ischigualasto que afectó principalmente vegetación xerófila y formaciones rocosas. El acceso turístico fue temporalmente restringido.",
-                severity: "Bajo",
+                veracity: "Bajo",
                 area: "150 ha",
                 status: "Extinguido",
-                source: "Dirección de Recursos Naturales - San Juan",
+                source: "Contribuyentes Locales",
                 year: "2024",
-                region: "Región Cuyo"
+                region: "Región Cuyo",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-005",
                 title: "Gran Incendio en Delta del Paraná",
-                location: "Tigre, Buenos Aires",
+                location: "Tigre, Buenos Aires, Argentina",
                 date: "3 de Mayo, 2024",
                 month: "Mayo",
                 province: "Buenos Aires",
                 description: "Incendio masivo en islas del Delta del Paraná que afectó 5,000 hectáreas de humedales, causando grave impacto ambiental y problemas respiratorios en la población del área metropolitana.",
-                severity: "Crítico",
+                veracity: "Crítico",
                 area: "5,000 ha",
                 status: "Controlado",
                 source: "Contribuyentes Locales",
                 year: "2024",
-                region: "Región Pampeana"
+                region: "Región Pampeana",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-006",
                 title: "Incendio en Bosque Nativo de Misiones",
-                location: "Puerto Iguazú, Misiones",
+                location: "Puerto Iguazú, Misiones, Argentina",
                 date: "18 de Junio, 2024",
                 month: "Junio",
                 province: "Misiones",
                 description: "Incendio en selva misionera que afectó 900 hectáreas de bosque atlántico, poniendo en riesgo especies endémicas de la región incluyendo el yaguareté y diversas especies de aves.",
-                severity: "Alto",
+                veracity: "Alto",
                 area: "900 ha",
                 status: "Controlado",
-                source: "Ministerio de Ecología - Misiones",
+                source: "Servicio de Bomberos Voluntarios",
                 year: "2024",
-                region: "Región Noreste"
+                region: "Región Noreste",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-007",
                 title: "Incendio en Plantación Forestal",
-                location: "Concordia, Entre Ríos",
+                location: "Concordia, Entre Ríos, Argentina",
                 date: "25 de Julio, 2024",
                 month: "Julio",
                 province: "Entre Ríos",
                 description: "Incendio en plantación de eucaliptos que se extendió a bosque nativo, afectando 1,800 hectáreas y generando pérdidas económicas significativas para la industria forestal local.",
-                severity: "Alto",
+                veracity: "Alto",
                 area: "1,800 ha",
                 status: "Extinguido",
-                source: "INTA - Instituto Nacional de Tecnología Agropecuaria",
+                source: "Informe de Incendios del 2024",
                 year: "2024",
-                region: "Región Litoral"
+                region: "Región Litoral",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-008",
                 title: "Incendio en Parque Nacional El Palmar",
-                location: "Colón, Entre Ríos",
+                location: "Colón, Entre Ríos, Argentina",
                 date: "12 de Agosto, 2024",
                 month: "Agosto",
                 province: "Entre Ríos",
                 description: "Incendio que afectó palmares nativos y pastizales del Parque Nacional El Palmar, destruyendo 600 hectáreas de ecosistema único. Se implementaron medidas especiales para proteger las palmeras yatay.",
-                severity: "Medio",
+                veracity: "Bajo",
                 area: "600 ha",
                 status: "Extinguido",
                 source: "Bomberos Voluntarios",
                 year: "2024",
-                region: "Región Litoral"
+                region: "Región Litoral",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-009",
                 title: "Incendio en Reserva de Biósfera Yabotí",
-                location: "San Pedro, Misiones",
+                location: "San Pedro, Misiones, Argentina",
                 date: "7 de Septiembre, 2024",
                 month: "Septiembre",
                 province: "Misiones",
                 description: "Incendio en área protegida de la Reserva de Biósfera Yabotí que afectó 1,100 hectáreas de selva paranaense y especies en peligro de extinción. Se activaron protocolos especiales de conservación.",
-                severity: "Alto",
+                veracity: "Alto",
                 area: "1,100 ha",
                 status: "Controlado",
                 source: "Contribuyentes Locales",
                 year: "2024",
-                region: "Región Noreste"
+                region: "Región Noreste",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-010",
                 title: "Incendio en Sierras de San Luis",
-                location: "Merlo, San Luis",
+                location: "Merlo, San Luis, Argentina",
                 date: "23 de Octubre, 2024",
                 month: "Octubre",
                 province: "San Luis",
                 description: "Incendio en zona serrana que afectó bosque nativo y amenazó centros turísticos, destruyendo 2,200 hectáreas de vegetación. El turismo de la región se vio severamente impactado.",
-                severity: "Alto",
+                veracity: "Alto",
                 area: "2,200 ha",
                 status: "Controlado",
-                source: "Plan Provincial de Manejo del Fuego - San Luis",
+                source: "Servicio de Bomberos Voluntarios",
                 year: "2024",
-                region: "Región Cuyo"
+                region: "Región Cuyo",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-011",
                 title: "Incendio en Parque Nacional Calilegua",
-                location: "Ledesma, Jujuy",
+                location: "Ledesma, Jujuy, Argentina",
                 date: "9 de Noviembre, 2024",
                 month: "Noviembre",
                 province: "Jujuy",
                 description: "Incendio en yungas que afectó 750 hectáreas de selva de montaña, poniendo en riesgo la biodiversidad única de la región incluyendo especies de orquídeas y helechos endémicos.",
-                severity: "Medio",
+                veracity: "Medio",
                 area: "750 ha",
                 status: "Extinguido",
-                source: "Administración de Parques Nacionales",
+                source: "Servicio de Bomberos Voluntarios",
                 year: "2024",
-                region: "Región Noroeste"
+                region: "Región Noroeste",
+                country: "Argentina"
             },
             {
                 id: "IF-2024-012",
                 title: "Incendio en Bosques Patagónicos",
-                location: "El Bolsón, Río Negro",
+                location: "El Bolsón, Río Negro, Argentina",
                 date: "15 de Diciembre, 2024",
                 month: "Diciembre",
                 province: "Río Negro",
                 description: "Incendio en bosques patagónicos que afectó 1,600 hectáreas de lenga y ñire, amenazando la cuenca hídrica de la región. Las condiciones climáticas adversas dificultaron las tareas de extinción.",
-                severity: "Alto",
+                veracity: "Alto",
                 area: "1,600 ha",
                 status: "Activo",
-                source: "Bomberos Voluntarios",
+                source: "Servicio de Bomberos Voluntarios",
                 year: "2024",
-                region: "Patagonia"
+                region: "Patagonia",
+                country: "Argentina"
             }
         ];
 
         let filteredFacts = [...factsData];
 
-        function populateFilters() {
-            const locationFilter = document.getElementById('locationFilter');
-            const sourceFilter = document.getElementById('sourceFilter');
-            
-            // Get unique values for each filter
-            const locations = [...new Set(factsData.map(fact => fact.region))].sort();
-            const sources = [...new Set(factsData.map(fact => fact.source))].sort();
-            
-            // Populate location filter (regions)
-            locations.forEach(location => {
-                const option = document.createElement('option');
-                option.value = location;
-                option.textContent = location;
-                locationFilter.appendChild(option);
-            });
-            
-            // Populate source filter
-            sources.forEach(source => {
-                const option = document.createElement('option');
-                option.value = source;
-                option.textContent = source;
-                sourceFilter.appendChild(option);
-            });
+    // 👉 Poblar Países y Fuentes
+    function populateFilters() {
+        const countryFilter = document.getElementById('countryFilter');
+        const sourceFilter = document.getElementById('sourceFilter');
 
-            setDefaultDateRange();
-        }
-
-        function setDefaultDateRange() {
-            const dates = factsData.map(fact => new Date(fact.date)).sort((a, b) => a - b);
-            const minDate = dates[0];
-            const maxDate = dates[dates.length - 1];
-            
-            if (minDate && maxDate) {
-                document.getElementById('startDateFilter').min = minDate.toISOString().split('T')[0];
-                document.getElementById('endDateFilter').min = minDate.toISOString().split('T')[0];
-                document.getElementById('startDateFilter').max = maxDate.toISOString().split('T')[0];
-                document.getElementById('endDateFilter').max = maxDate.toISOString().split('T')[0];
-            }
-        }
-
-        function renderFacts(facts) {
-            const factsGrid = document.getElementById('factsGrid');
-            const factsCount = document.getElementById('factsCount');
-            
-            factsCount.textContent = `Mostrando ${facts.length} de ${factsData.length} hechos`;
-            
-            factsGrid.innerHTML = facts.map(fact => `
-                <div class="fact-card">
-                    <div class="fact-header">
-                        <div>
-                            <h3 class="fact-title">${fact.title}</h3>
-                            <div class="fact-location">
-                                <i data-lucide="map-pin"></i> ${fact.location}
-                            </div>
-                        </div>
-                        <div class="fact-date">${fact.date}</div>
-                    </div>
-                    <p class="fact-description">${fact.description}</p>
-                    <div class="fact-stats">
-                        <span class="stat-item">🔥 ${fact.area}</span>
-                        <span class="stat-item">📊 ${fact.severity}</span>
-                        <span class="stat-item">🚨 ${fact.status}</span>
-                    </div>
-                    <div class="fact-source">
-                        <strong>Fuente:</strong> ${fact.source}
-                    </div>
-                    <div class="fact-actions">
-                        <button class="action-btn view-btn" onclick="viewFact('${fact.id}')">
-                            <i data-lucide="eye"></i> Ver Detalles
-                        </button>
-                        <button class="action-btn delete-request-btn" onclick="openDeleteModal('${fact.id}', '${fact.title}')">
-                            <i data-lucide="trash-2"></i> Eliminar
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Re-initialize Lucide icons for new content
-            lucide.createIcons();
-        }
-
-        function searchFacts() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            filteredFacts = factsData.filter(fact => 
-                fact.title.toLowerCase().includes(searchTerm) ||
-                fact.location.toLowerCase().includes(searchTerm) ||
-                fact.description.toLowerCase().includes(searchTerm) ||
-                fact.source.toLowerCase().includes(searchTerm)
-            );
-            applyFilters();
-        }
-
-        function filterFacts() {
-            applyFilters();
-        }
-
-        function applyFilters() {
-            const locationFilter = document.getElementById('locationFilter').value;
-            const startDateFilter = document.getElementById('startDateFilter').value;
-            const endDateFilter = document.getElementById('endDateFilter').value;
-            const sourceFilter = document.getElementById('sourceFilter').value;
-            const severityFilter = document.getElementById('severityFilter').value;
-            
-            let filtered = [...filteredFacts];
-            
-            if (locationFilter) {
-                filtered = filtered.filter(fact => fact.region === locationFilter);
-            }
-            
-            if (startDateFilter || endDateFilter) {
-                filtered = filtered.filter(fact => {
-                    const factDate = new Date(fact.date);
-                    const startDate = startDateFilter ? new Date(startDateFilter) : null;
-                    const endDate = endDateFilter ? new Date(endDateFilter) : null;
-                    
-                    if (startDate && endDate) {
-                        return factDate >= startDate && factDate <= endDate;
-                    } else if (startDate) {
-                        return factDate >= startDate;
-                    } else if (endDate) {
-                        return factDate <= endDate;
-                    }
-                    return true;
-                });
-            }
-            
-            if (sourceFilter) {
-                filtered = filtered.filter(fact => fact.source === sourceFilter);
-            }
-            
-            if (severityFilter) {
-                filtered = filtered.filter(fact => fact.severity === severityFilter);
-            }
-            
-            renderFacts(filtered);
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            populateFilters();
-            renderFacts(factsData);
-            lucide.createIcons();
+        // Países únicos
+        const countries = [...new Set(factsData.map(f => f.country))].sort();
+        countries.forEach(c => {
+            const option = document.createElement('option');
+            option.value = c;
+            option.textContent = c;
+            countryFilter.appendChild(option);
         });
 
-        function viewFact(factId) {
-            const fact = factsData.find(f => f.id === factId);
-            alert(`Detalles del hecho ${factId}:\n\n${fact.title}\n📍 ${fact.location}\n📅 ${fact.date}\n🔥 Área afectada: ${fact.area}\n📊 Severidad: ${fact.severity}\n🚨 Estado: ${fact.status}\n\n${fact.description}\n\nFuente: ${fact.source}`);
+        // Fuentes únicas
+        const sources = [...new Set(factsData.map(f => f.source))].sort();
+        sources.forEach(source => {
+            const option = document.createElement('option');
+            option.value = source;
+            option.textContent = source;
+            sourceFilter.appendChild(option);
+        });
+
+        setDefaultDateRange();
+    }
+
+    // 👉 Provincias según país
+    function updateProvinces() {
+        const country = document.getElementById('countryFilter').value;
+        const provinceFilter = document.getElementById('provinceFilter');
+        provinceFilter.innerHTML = '<option value="">Todas las provincias</option>';
+
+        if (!country) {
+            updateCities(); // resetea ciudades
+            return;
         }
 
-        function reportFact(factId) {
-            alert(`Reportar hecho ${factId} - Esta funcionalidad estará disponible próximamente para reportar información incorrecta o problemática.`);
+        const provinces = [...new Set(factsData.filter(f => f.country === country).map(f => f.province))].sort();
+        provinces.forEach(p => {
+            const option = document.createElement('option');
+            option.value = p;
+            option.textContent = p;
+            provinceFilter.appendChild(option);
+        });
+
+        updateCities();
+    }
+
+    // 👉 Ciudades según provincia
+    function updateCities() {
+        const country = document.getElementById('countryFilter').value;
+        const province = document.getElementById('provinceFilter').value;
+        const cityFilter = document.getElementById('cityFilter');
+        cityFilter.innerHTML = '<option value="">Todas las ciudades</option>';
+
+        if (!province) return;
+
+        const cities = [...new Set(
+            factsData
+                .filter(f => f.country === country && f.province === province)
+                .map(f => f.location.split(",")[0].trim()) // ciudad = primera parte de "ciudad, provincia, país"
+        )].sort();
+
+        cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.textContent = city;
+            cityFilter.appendChild(option);
+        });
+    }
+
+    // 👉 Aplicar filtros
+    function applyFilters() {
+        const country = document.getElementById('countryFilter').value;
+        const province = document.getElementById('provinceFilter').value;
+        const city = document.getElementById('cityFilter').value;
+        const startDateFilter = document.getElementById('startDateFilter').value;
+        const endDateFilter = document.getElementById('endDateFilter').value;
+        const sourceFilter = document.getElementById('sourceFilter').value;
+        const veracityFilter = document.getElementById('veracityFilter').value;
+
+        let filtered = [...factsData];
+
+        if (country) {
+            filtered = filtered.filter(fact => fact.country === country);
+        }
+        if (province) {
+            filtered = filtered.filter(fact => fact.province === province);
+        }
+        if (city) {
+            filtered = filtered.filter(fact => fact.location.startsWith(city));
+        }
+        if (sourceFilter) {
+            filtered = filtered.filter(fact => fact.source === sourceFilter);
+        }
+        if (veracityFilter) {
+            filtered = filtered.filter(fact => fact.veracity === veracityFilter);
+        }
+        if (startDateFilter || endDateFilter) {
+            filtered = filtered.filter(fact => {
+                const factDate = new Date(fact.date);
+                const startDate = startDateFilter ? new Date(startDateFilter) : null;
+                const endDate = endDateFilter ? new Date(endDateFilter) : null;
+                if (startDate && endDate) return factDate >= startDate && factDate <= endDate;
+                if (startDate) return factDate >= startDate;
+                if (endDate) return factDate <= endDate;
+                return true;
+            });
         }
 
-        function openDeleteModal(factId = '', factTitle = '') {
-            document.getElementById('deleteModal').style.display = 'block';
-            // Pre-populate the form with the selected fact information
-            if (factId) {
-                document.getElementById('factId').value = factId;
-                document.getElementById('factTitle').value = factTitle;
-            }
-        }
+        renderFacts(filtered);
+    }
 
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').style.display = 'none';
-            document.getElementById('deleteRequestForm').reset();
-        }
+    // 👉 Mantengo tu renderFacts() igual
+    function renderFacts(facts) {
+        const factsGrid = document.getElementById('factsGrid');
+        const factsCount = document.getElementById('factsCount');
+        factsCount.textContent = `Mostrando ${facts.length} de ${factsData.length} hechos`;
+        factsGrid.innerHTML = facts.map(fact => `
+            <div class="fact-card">
+                <div class="fact-header">
+                    <div>
+                        <h3 class="fact-title">${fact.title}</h3>
+                        <div class="fact-location">
+                            <i data-lucide="map-pin"></i> ${fact.location}
+                        </div>
+                    </div>
+                    <div class="fact-date">${fact.date}</div>
+                </div>
+                <p class="fact-description">${fact.description}</p>
+                <div class="fact-stats">
+                    <span class="stat-item">🔥 ${fact.area}</span>
+                    <span class="stat-item">📊 ${fact.veracity}</span>
+                    <span class="stat-item">🚨 ${fact.status}</span>
+                </div>
+                <div class="fact-source">
+                    <strong>Fuente:</strong> ${fact.source}
+                </div>
+                <div class="fact-actions">
+                    <button class="action-btn view-btn" onclick="viewFact('${fact.id}')">
+                        <i data-lucide="eye"></i> Ver Detalles
+                    </button>
+                    <button class="action-btn delete-request-btn" onclick="openDeleteModal('${fact.id}', '${fact.title}')">
+                        <i data-lucide="trash-2"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+        `).join('');
+        lucide.createIcons();
+    }
 
-        function submitDeleteRequest(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(event.target);
-            const requestData = {
-                factId: formData.get('factId'),
-                reason: formData.get('requestReason'),
-                description: formData.get('requestDescription'),
-                requesterName: formData.get('requesterName'),
-                requesterEmail: formData.get('requesterEmail'),
-                requesterOrganization: formData.get('requesterOrganization')
-            };
-            
-            // Simulate form submission
-            alert(`✅ Solicitud de eliminación enviada exitosamente.\n\n📋 ID del hecho: ${requestData.factId}\n🔍 Motivo: ${requestData.reason}\n👤 Solicitante: ${requestData.requesterName}\n\n📧 Recibirá una confirmación por email en las próximas 24 horas.\n\nNuestro equipo de moderación revisará su solicitud y se pondrá en contacto si necesita información adicional.`);
-            
-            closeDeleteModal();
-        }
-
-        // Initialize page
-        
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('deleteModal');
-            if (event.target === modal) {
-                closeDeleteModal();
-            }
-        }
-    </script>
+    // 👉 Inicialización
+    document.addEventListener('DOMContentLoaded', function() {
+        populateFilters();
+        renderFacts(factsData);
+        lucide.createIcons();
+    });
+</script>
 </body>
 </html>
