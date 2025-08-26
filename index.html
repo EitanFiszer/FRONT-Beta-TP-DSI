@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MetaMapa - Sistema Colaborativo de Mapeo de Información</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <!-- Added DM Sans font from Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -87,9 +87,9 @@
     }
 
     /* Redesigned hero section with better gradient and typography */
-    .hero {
+   .hero {
       text-align: center; 
-      padding: 6rem 2rem;
+      padding: 4rem 2rem;
       background: linear-gradient(135deg, var(--primary-color) 0%, #0e7490 100%);
       color: white;
       position: relative;
@@ -103,7 +103,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: url('/placeholder.svg?height=600&width=1200') center/cover;
+      background: url('/placeholder.svg?height=400&width=1200') center/cover;
       opacity: 0.1;
       z-index: 0;
     }
@@ -116,39 +116,54 @@
     }
     
     .hero h1 { 
-      font-size: 3.5rem; 
+      font-size: 2.8rem; 
       font-weight: 700; 
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       line-height: 1.2;
     }
     
     .hero p { 
-      font-size: 1.3rem; 
+      font-size: 1.2rem; 
       opacity: 0.95; 
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
     }
     
-     .btn {
-      padding: 1rem 2rem; 
-      background: white; 
-      color: var(--primary-color);
-      border: none; 
-      border-radius: 0.75rem; 
-      font-weight: 600;
-      font-size: 1.1rem;
-      cursor: pointer; 
-      transition: all 0.3s ease;
-      box-shadow: var(--shadow-lg);
-    }
+    .btn,
+.btn-primary {
+  padding: 1.1rem 2.2rem; 
+  font-size: 1.1rem;
+  border-radius: 0.75rem; 
+  font-weight: 600;
+  cursor: pointer; 
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;   /* 🔹 espacio entre ícono y texto */
+}
+
     
-     .btn:hover { 
-      background: var(--surface); 
-      transform: translateY(-2px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    }
+   .btn {
+  background: white; 
+  color: var(--primary-color);
+}
+
+.btn:hover { 
+  background: var(--surface); 
+}
+
+.btn-primary {
+  background: var(--secondary-color); 
+  color: white;
+}
+
+.btn-primary:hover { 
+  background: #d97706; 
+}
 
     /* Enhanced section styling with better spacing */
     section { 
@@ -406,15 +421,23 @@
 
   <!-- Enhanced hero section with better content and imagery -->
   <header class="hero" id="inicio">
-    <div class="hero-content">
-      <h1>MetaMapa</h1>
-      <p>Sistema colaborativo de código abierto para la recopilación, visualización y mapeo de información institucional</p>
-        <button class="btn" onclick="window.location.href='explorar-hechos.html'">
-          Explorar Hechos
-        </button>
-
+  <div class="hero-content">
+    <h1>MetaMapa</h1>
+    <p>Sistema colaborativo de código abierto para la recopilación, visualización y mapeo de información institucional</p>
+    
+    <div class="hero-actions">
+      <a href="subir-hecho.html" class="btn-primary">
+        <i data-lucide="plus-circle"></i>
+        Subir Nuevo Hecho
+      </a>
+      <a href="explorar-hechos.html" class="btn">
+        <i data-lucide="search"></i>
+        Explorar Hechos
+      </a>
     </div>
-  </header>
+  </div>
+</header>
+
 
   <!-- Added comprehensive About Us section -->
   <section class="about-section" id="nosotros">

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explorar Hechos - MetaMapa</title>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
@@ -19,6 +20,19 @@
             color: #374151;
             background-color: #ffffff;
         }
+        :root {
+  --primary-color: #0891b2;
+  --primary-hover: #0e7490;
+  --secondary-color: #f59e0b;
+  --text-color: #4b5563;
+  --text-light: #6b7280;
+  --background: #ffffff;
+  --surface: #f9fafb;
+  --border: #e5e7eb;
+  --shadow: 0 4px 6px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+}
+
 
  /* Same navbar styling as landing page */
     nav {
@@ -115,6 +129,41 @@
             font-size: 1.5rem;
             cursor: pointer;
         }
+
+        .filters {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.filters h3 {
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.filter-row label {
+  font-weight: 500;
+}
+
+.filter-row input,
+.filter-row select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  flex: 1;
+  min-width: 150px;
+}
+
 
         /* Main content */
         .main-content {
@@ -323,6 +372,7 @@
             text-align: center;
             color: #9ca3af;
         }
+        
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -376,23 +426,26 @@
     </style>
 </head>
 <body>
-    <header>
-<!-- Navbar igual a login.html -->
-<nav>
-  <div class="nav-container">
-    <a href="index.html" class="logo">
-      <i data-lucide="map"></i> 
-      MetaMapa
-    </a>
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="index.html#nosotros">Nosotros</a>
-      <a href="index.html#hechos">Explorar</a>
-      <a href="login.html">Acceso</a>
+   <header>
+  <!-- Navbar única -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i data-lucide="map"></i> 
+        MetaMapa
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Inicio</a>
+        <a href="explorar-hechos.html">Explorar</a>
+        <a href="index-contribuyente.html">Mi Panel</a>
+        <a href="login.html">Cerrar Sesión</a>
+      </div>
     </div>
-  </div>
-</nav>
-    </header>
+  </nav>
+</header>
+
+
+
 
     <main class="main-content">
         <div class="container">
@@ -403,6 +456,39 @@
                     Haz clic en cualquier marcador para ver detalles completos.
                 </p>
             </div>
+            <div class="filters">
+  <h3>Filtrar Hechos</h3>
+  <form id="filterForm">
+    <div class="filter-row">
+      <label for="category">Categoría:</label>
+      <select id="category" name="category">
+        <option value="">Todas</option>
+        <option value="social">Social</option>
+        <option value="economic">Económico</option>
+        <option value="political">Político</option>
+        <option value="environmental">Ambiental</option>
+      </select>
+    </div>
+    <div class="filter-row">
+      <label for="dateReportFrom">Fecha de Reporte desde:</label>
+      <input type="date" id="dateReportFrom" name="dateReportFrom">
+      <label for="dateReportTo">hasta:</label>
+      <input type="date" id="dateReportTo" name="dateReportTo">
+    </div>
+    <div class="filter-row">
+      <label for="dateEventFrom">Fecha de Acontecimiento desde:</label>
+      <input type="date" id="dateEventFrom" name="dateEventFrom">
+      <label for="dateEventTo">hasta:</label>
+      <input type="date" id="dateEventTo" name="dateEventTo">
+    </div>
+    <div class="filter-row">
+      <label for="location">Ubicación:</label>
+      <input type="text" id="location" name="location" placeholder="Ciudad, país...">
+    </div>
+    <button type="submit" class="btn-primary">Aplicar filtros</button>
+  </form>
+</div>
+
 
             <div class="map-container">
                 <div class="map-header">
@@ -692,5 +778,6 @@
             navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
         });
     </script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

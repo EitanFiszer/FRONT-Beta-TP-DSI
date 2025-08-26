@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitud de Eliminación - MetaMapa</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #0891b2;
+      --primary-hover: #0e7490;
+      --secondary-color: #f59e0b;
+      --text-color: #4b5563;
+      --text-light: #6b7280;
+      --background: #ffffff;
+      --surface: #f9fafb;
+      --border: #e5e7eb;
+      --shadow: 0 4px 6px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    body { font-family: 'DM Sans', sans-serif; background: #f9fafb; color: var(--text-color); margin: 0; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* Navbar */
+    nav {
+      background: var(--background);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0; 
+      z-index: 100;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .nav-container {
+      max-width: 1200px; 
+      margin: auto; 
+      padding: 1rem 2rem;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+    }
+    .logo { 
+      display: flex; 
+      align-items: center; 
+      gap: 0.5rem; 
+      color: var(--primary-color); 
+      font-weight: 700; 
+      font-size: 1.5rem; 
+      text-decoration: none; 
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      text-decoration: none; 
+      padding: 0.5rem 1rem; 
+      border-radius: 0.5rem;
+      color: var(--text-color); 
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .nav-links a:hover { 
+      background: var(--primary-color); 
+      color: white; 
+      transform: translateY(-1px);
+    }
+
+    /* Contenido principal */
+    .container { max-width: 800px; margin: 3rem auto; padding: 2rem; background: white; border-radius: 1rem; box-shadow: var(--shadow-lg); flex-grow: 1; }
+    h1 { text-align: center; color: var(--primary-color); }
+    form { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+    label { font-weight: 600; }
+    input, textarea { padding: 1rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 1rem; width: 100%; }
+    textarea { min-height: 200px; resize: vertical; }
+    .btn-primary { background: var(--secondary-color); color: white; padding: 1rem 2rem; border: none; border-radius: 0.75rem; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+    .btn-primary:hover { background: #d97706; }
+    .note { font-size: 0.9rem; color: var(--text-light); }
+
+    /* Footer */
+    footer {
+      background: var(--background);
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      box-shadow: var(--shadow);
+    }
+    footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      margin: 0 0.5rem;
+      transition: color 0.2s ease;
+    }
+    footer a:hover { color: var(--primary-hover); }
+
+    /* Responsive */
+    @media(max-width: 600px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 🔹 Navbar -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i data-lucide="map"></i> 
+        MetaMapa
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Inicio</a>
+        <a href="explorar-hechos.html">Explorar</a>
+        <a href="index-contribuyente.html">Mi Panel</a>
+        <a href="login.html">Cerrar Sesión</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 🔹 Contenido principal -->
+  <div class="container">
+    <h1><i data-lucide="trash-2"></i> Solicitud de Eliminación</h1>
+    <p>Si consideras que un hecho debe ser eliminado del sistema, completa este formulario. La justificación debe tener al menos <strong>500 caracteres</strong>.</p>
+    
+    <form id="form-eliminacion">
+      <label for="tituloHecho">Título del Hecho</label>
+      <input type="text" id="tituloHecho" name="tituloHecho" placeholder="Ejemplo: Corrupción en la obra pública" required>
+      
+      <label for="descripcionHecho">Descripción del Hecho</label>
+      <textarea id="descripcionHecho" name="descripcionHecho" placeholder="Escribe aquí la descripción del hecho..." required></textarea>
+      
+      <label for="justificacion">Justificación de la Solicitud</label>
+      <textarea id="justificacion" name="justificacion" minlength="500" placeholder="Escribe aquí los fundamentos para la eliminación..." required></textarea>
+      <span class="note">Tu justificación debe tener al menos 500 caracteres.</span>
+      
+      <button type="submit" class="btn-primary">Enviar Solicitud</button>
+    </form>
+  </div>
+
+  <!-- 🔹 Footer -->
+  <footer>
+    <p>&copy; 2025 MetaMapa — Plataforma colaborativa de datos abiertos.</p>
+    <p>
+      <a href="politica-privacidad.html">Política de Privacidad</a> | 
+      <a href="terminos-condiciones.html">Términos y Condiciones</a> | 
+      <a href="contacto.html">Contacto</a>
+    </p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    document.getElementById("form-eliminacion").addEventListener("submit", function(e) {
+      const justificacion = document.getElementById("justificacion").value.trim();
+      if (justificacion.length < 500) {
+        e.preventDefault();
+        alert("La justificación debe tener al menos 500 caracteres.");
+      }
+    });
+  </script>
+</body>
+</html>
