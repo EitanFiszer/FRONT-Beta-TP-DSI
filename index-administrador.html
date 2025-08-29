@@ -28,12 +28,18 @@
       box-sizing: border-box; 
     }
     
+    html {
+      overflow-x: hidden;
+    }
+    
     /* Updated font family to DM Sans and improved base styles */
     body { 
       font-family: 'DM Sans', sans-serif; 
       background: var(--background); 
       color: var(--text-color);
       line-height: 1.6;
+      overflow-x: hidden;
+      width: 100%;
     }
 
     /* Enhanced navbar with better styling and sticky behavior */
@@ -42,18 +48,19 @@
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0; 
-      z-index: 100;
+      z-index: 1001;
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
     }
     
     .nav-container {
-      max-width: 1200px; 
+      max-width: 100%; 
       margin: auto; 
-      padding: 1rem 2rem;
+      padding: 1rem;
       display: flex; 
       justify-content: space-between; 
       align-items: center;
+      width: 100%;
     }
     
     .logo { 
@@ -86,14 +93,109 @@
       transform: translateY(-1px);
     }
 
-    /* Redesigned hero section with better gradient and typography */
-   .hero {
+    /* Hamburger menu styles */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      transition: background-color 0.2s ease;
+    }
+    
+    .hamburger:hover {
+      background-color: var(--surface);
+    }
+    
+    .hamburger span {
+      width: 24px;
+      height: 3px;
+      background-color: var(--text-color);
+      margin: 2px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+    
+    /* Mobile menu styles */
+    .nav-links.mobile {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: var(--background);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      transform: translateX(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .nav-links.mobile.active {
+      transform: translateX(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .nav-links.mobile a {
+      padding: 1.2rem;
+      margin: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      font-size: 1.2rem;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-links.mobile a:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .nav-links.mobile a:last-child {
+      border-bottom: none;
+    }
+    
+    /* Agregar overlay cuando el menú está abierto */
+    .nav-links.mobile::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: -1;
+    }
+
+    /* Hero section */
+    .hero {
       text-align: center; 
-      padding: 4rem 2rem;
+      padding: 4rem 1rem;
       background: linear-gradient(135deg, var(--primary-color) 0%, #0e7490 100%);
       color: white;
       position: relative;
       overflow: hidden;
+      width: 100%;
     }
     
     .hero::before {
@@ -113,22 +215,32 @@
       z-index: 1;
       max-width: 800px;
       margin: 0 auto;
+      width: 100%;
     }
     
     .hero h1 { 
-      font-size: 2.8rem; 
+      font-size: clamp(1.8rem, 5vw, 2.8rem); 
       font-weight: 700; 
       margin-bottom: 1rem;
       line-height: 1.2;
+      word-wrap: break-word;
     }
     
     .hero p { 
-      font-size: 1.2rem; 
+      font-size: clamp(1rem, 3vw, 1.2rem); 
       opacity: 0.95; 
       margin-bottom: 2rem;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      word-wrap: break-word;
+    }
+    
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
     }
     
     .btn,
@@ -145,6 +257,7 @@
       align-items: center;
       gap: 0.5rem;
       border: none;
+      white-space: nowrap;
     }
 
     
@@ -168,53 +281,59 @@
 
     /* Enhanced section styling with better spacing */
     section { 
-      padding: 5rem 2rem; 
+      padding: 5rem 1rem; 
       max-width: 1200px; 
       margin: auto; 
+      width: 100%;
     }
     
     section h2 { 
       text-align: center; 
-      font-size: 2.5rem; 
+      font-size: clamp(1.8rem, 4vw, 2.5rem); 
       font-weight: 700;
       margin-bottom: 1rem;
       color: var(--text-color);
+      word-wrap: break-word;
     }
     
     .section-subtitle {
       text-align: center;
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
       color: var(--text-light);
       margin-bottom: 3rem;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      word-wrap: break-word;
     }
 
     /* Improved grid and card styling */
     .grid { 
       display: grid; 
-      gap: 2rem; 
+      gap: 1.5rem; 
+      width: 100%;
     }
     
     .grid-2 { 
-      grid-template-columns: repeat(2, 1fr); 
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     }
     
     .grid-3 { 
-      grid-template-columns: repeat(3, 1fr); 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     }
     
     .card {
       background: var(--surface); 
       border: 1px solid var(--border); 
       border-radius: 1rem;
-      padding: 2rem; 
+      padding: 1.5rem; 
       text-align: center; 
       box-shadow: var(--shadow);
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      width: 100%;
+      max-width: 100%;
     }
     
     .card:hover {
@@ -248,80 +367,19 @@
       margin-bottom: 1.5rem;
     }
 
-    /* Added about section styling */
-    .about-section {
-      background: var(--surface);
-    }
-    
-    .about-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    
-    .about-text h2 {
-      text-align: left;
-      margin-bottom: 1.5rem;
-    }
-    
-    .about-text p {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-      color: var(--text-light);
-    }
-    
-    .about-image {
-      position: relative;
-      border-radius: 1rem;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-    }
-    
-    .about-image img {
-      width: 100%;
-      height: 400px;
-      object-fit: cover;
-    }
-
-    /* Enhanced stats section */
-    .stats-section {
-      background: var(--primary-color);
-      color: white;
-      text-align: center;
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
-      margin-top: 3rem;
-    }
-    
-    .stat-item h3 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--secondary-color);
-    }
-    
-    .stat-item p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-
     /* Enhanced footer styling */
     footer {
       background: var(--text-color); 
       color: white;
       text-align: center; 
-      padding: 3rem 2rem 2rem;
+      padding: 3rem 1rem 2rem;
+      width: 100%;
     }
     
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
+      width: 100%;
     }
     
     .footer-links {
@@ -329,6 +387,7 @@
       justify-content: center;
       gap: 2rem;
       margin-bottom: 2rem;
+      flex-wrap: wrap;
     }
     
     footer a { 
@@ -348,64 +407,149 @@
       margin-top: 2rem;
       color: #9ca3af;
     }
+    
+    .footer-bottom p {
+      margin-bottom: 0.5rem;
+    }
 
-    /* Enhanced responsive design */
-    @media(max-width: 900px) {
-      .grid-3, .grid-2, .about-content, .stats-grid { 
+    /* Responsive design */
+    @media(max-width: 768px) {
+      /* Mostrar hamburguesa y ocultar menú desktop */
+      .hamburger {
+        display: flex;
+      }
+      
+      .nav-links:not(.mobile) {
+        display: none;
+      }
+      
+      /* Ajustar navegación */
+      .nav-container {
+        padding: 0.8rem;
+      }
+      
+      /* Hero responsive */
+      .hero {
+        padding: 2rem 0.8rem;
+      }
+      
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      
+      .btn, .btn-primary {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+      }
+      
+      /* Grid responsive */
+      .grid-3, .grid-2 { 
         grid-template-columns: 1fr; 
+        gap: 1.2rem;
       }
       
-      .hero h1 { 
-        font-size: 2.5rem; 
+      /* Sections responsive */
+      section {
+        padding: 2.5rem 0.8rem;
       }
       
-      .hero p {
+      /* Cards responsive */
+      .card {
+        padding: 1.2rem;
+      }
+      
+      .card h3 {
         font-size: 1.1rem;
       }
       
-      .nav-container {
-        padding: 1rem;
-      }
-      
-      .nav-links {
-        gap: 1rem;
-      }
-      
-      section {
-        padding: 3rem 1rem;
-      }
-      
-      .about-content {
-        gap: 2rem;
+      .card p {
+        font-size: 0.9rem;
+        line-height: 1.5;
       }
       
       .footer-links {
         flex-direction: column;
         gap: 1rem;
+        align-items: center;
+      }
+      
+      footer {
+        padding: 2rem 0.8rem 1.5rem;
+      }
+      
+      .footer-bottom p {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
       }
     }
     
-    @media(max-width: 600px) {
+    @media(max-width: 480px) {
+      /* Mobile pequeño */
+      .nav-container {
+        padding: 0.5rem;
+      }
+      
       .hero {
-        padding: 4rem 1rem;
+        padding: 1.5rem 0.5rem;
       }
       
-      .hero h1 {
-        font-size: 2rem;
+      .btn, .btn-primary {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
       }
       
-      section h2 {
-        font-size: 2rem;
+      section {
+        padding: 2rem 0.5rem;
       }
       
-      .nav-links {
-        display: none;
+      .card {
+        padding: 1rem;
+      }
+      
+      .card-icon {
+        width: 45px;
+        height: 45px;
+        margin-bottom: 0.8rem;
+      }
+      
+      /* Ajustar logo en móviles muy pequeños */
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      /* Menu móvil más compacto */
+      .nav-links.mobile {
+        padding: 1rem;
+      }
+      
+      .nav-links.mobile a {
+        padding: 0.8rem;
+        font-size: 1rem;
+        margin: 0.3rem 0;
+      }
+      
+      footer {
+        padding: 1.5rem 0.5rem 1rem;
+      }
+      
+      .footer-links {
+        gap: 0.8rem;
+      }
+      
+      footer a {
+        font-size: 0.9rem;
+      }
+      
+      .footer-bottom p {
+        font-size: 0.8rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Enhanced navbar with better structure -->
+  <!-- Enhanced navbar with hamburger menu -->
   <nav>
     <div class="nav-container">
       <a href="index-administrador.html" class="logo">
@@ -418,6 +562,22 @@
         <a href="#hechos">Explorar</a>
         <a href="admin-solicitudes.html">Admin</a>
         <a href="login.html">Acceso</a>
+      </div>
+      
+      <!-- Hamburger menu button -->
+      <div class="hamburger" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      
+      <!-- Mobile menu -->
+      <div class="nav-links mobile" id="mobileMenu">
+        <a href="#inicio" onclick="closeMobileMenu()">Inicio</a>
+        <a href="#nosotros" onclick="closeMobileMenu()">Nosotros</a>
+        <a href="#hechos" onclick="closeMobileMenu()">Explorar</a>
+        <a href="admin-solicitudes.html" onclick="closeMobileMenu()">Admin</a>
+        <a href="login.html" onclick="closeMobileMenu()">Acceso</a>
       </div>
     </div>
   </nav>
@@ -540,6 +700,54 @@
     </div>
   </footer>
 
-  <script>lucide.createIcons();</script>
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Mobile menu functionality
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const body = document.body;
+      
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      
+      // Prevenir scroll del body cuando el menú está abierto
+      if (mobileMenu.classList.contains('active')) {
+        body.style.overflow = 'hidden';
+      } else {
+        body.style.overflow = '';
+      }
+    }
+    
+    function closeMobileMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const body = document.body;
+      
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      body.style.overflow = '';
+    }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const navContainer = document.querySelector('.nav-container');
+      
+      if (!navContainer.contains(event.target) && mobileMenu.classList.contains('active')) {
+        closeMobileMenu();
+      }
+    });
+    
+    // Close mobile menu on window resize if it's open
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 768) {
+        closeMobileMenu();
+      }
+    });
+  </script>
 </body>
 </html>
