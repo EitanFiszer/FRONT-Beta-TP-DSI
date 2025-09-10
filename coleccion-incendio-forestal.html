@@ -1017,10 +1017,12 @@
                         <strong>Fuente:</strong> ${fact.source}
                     </div>
                     <div class="fact-actions">
-                        <button class="action-btn view-btn" onclick="viewFact('${fact.id}')">
+                        <a href="detalle-hecho.html" class="action-btn view-btn">
                             <i data-lucide="eye"></i> Ver Detalles
+
                         </button>
                         <a href="solicitar-eliminacion.html?factId=${fact.id}&factTitle=${encodeURIComponent(fact.title)}" class="action-btn delete-request-btn">
+
                             <i data-lucide="trash-2"></i> Eliminar
                         </a>
                     </div>
