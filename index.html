@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MetaMapa - Sistema Colaborativo de Mapeo de Información</title>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-  <!-- Added DM Sans font from Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Updated CSS variables to use design brief colors and improved styling */
+    /* CSS variables */
     :root {
       --primary-color: #0891b2;
       --primary-hover: #0e7490;
@@ -28,32 +27,38 @@
       box-sizing: border-box; 
     }
     
-    /* Updated font family to DM Sans and improved base styles */
+    html {
+      overflow-x: hidden;
+    }
+    
     body { 
       font-family: 'DM Sans', sans-serif; 
       background: var(--background); 
       color: var(--text-color);
       line-height: 1.6;
+      overflow-x: hidden;
+      width: 100%;
     }
 
-    /* Enhanced navbar with better styling and sticky behavior */
+    /* Enhanced navbar */
     nav {
       background: var(--background);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0; 
-      z-index: 100;
+      z-index: 1001;
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
     }
     
     .nav-container {
-      max-width: 1200px; 
+      max-width: 100%; 
       margin: auto; 
-      padding: 1rem 2rem;
+      padding: 1rem;
       display: flex; 
       justify-content: space-between; 
       align-items: center;
+      width: 100%;
     }
     
     .logo { 
@@ -86,26 +91,109 @@
       transform: translateY(-1px);
     }
 
-    /* Redesigned hero section with better gradient and typography */
-   .hero {
+    /* Hamburger menu styles */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      transition: background-color 0.2s ease;
+    }
+    
+    .hamburger:hover {
+      background-color: var(--surface);
+    }
+    
+    .hamburger span {
+      width: 24px;
+      height: 3px;
+      background-color: var(--text-color);
+      margin: 2px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+    
+    /* Mobile menu styles */
+    .nav-links.mobile {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: var(--background);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      transform: translateX(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .nav-links.mobile.active {
+      transform: translateX(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .nav-links.mobile a {
+      padding: 1.2rem;
+      margin: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      font-size: 1.2rem;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-links.mobile a:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .nav-links.mobile a:last-child {
+      border-bottom: none;
+    }
+    
+    /* Agregar overlay cuando el menú está abierto */
+    .nav-links.mobile::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: -1;
+    }
+
+    /* Hero section */
+    .hero {
       text-align: center; 
-      padding: 4rem 2rem;
+      padding: 4rem 1rem;
       background: linear-gradient(135deg, var(--primary-color) 0%, #0e7490 100%);
       color: white;
       position: relative;
       overflow: hidden;
-    }
-    
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('/placeholder.svg?height=400&width=1200') center/cover;
-      opacity: 0.1;
-      z-index: 0;
+      width: 100%;
     }
     
     .hero-content {
@@ -113,107 +201,97 @@
       z-index: 1;
       max-width: 800px;
       margin: 0 auto;
+      width: 100%;
     }
     
     .hero h1 { 
-      font-size: 2.8rem; 
+      font-size: clamp(1.8rem, 5vw, 2.8rem); 
       font-weight: 700; 
       margin-bottom: 1rem;
       line-height: 1.2;
+      word-wrap: break-word;
     }
     
     .hero p { 
-      font-size: 1.2rem; 
+      font-size: clamp(1rem, 3vw, 1.2rem); 
       opacity: 0.95; 
       margin-bottom: 2rem;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      word-wrap: break-word;
     }
     
-    .btn,
-.btn-primary {
-  padding: 1.1rem 2.2rem; 
-  font-size: 1.1rem;
-  border-radius: 0.75rem; 
-  font-weight: 600;
-  cursor: pointer; 
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-lg);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;   /* 🔹 espacio entre ícono y texto */
-}
-
+    .btn {
+      padding: 1.1rem 2.2rem; 
+      font-size: 1.1rem;
+      border-radius: 0.75rem; 
+      font-weight: 600;
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-lg);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white; 
+      color: var(--primary-color);
+    }
     
-   .btn {
-  background: white; 
-  color: var(--primary-color);
-}
+    .btn:hover { 
+      background: var(--surface); 
+    }
 
-.btn:hover { 
-  background: var(--surface); 
-}
-
-.btn-primary {
-  background: var(--secondary-color); 
-  color: white;
-}
-
-.btn-primary:hover { 
-  background: #d97706; 
-}
-
-    /* Enhanced section styling with better spacing */
+    /* Sections */
     section { 
-      padding: 5rem 2rem; 
+      padding: 5rem 1rem; 
       max-width: 1200px; 
       margin: auto; 
+      width: 100%;
     }
     
     section h2 { 
       text-align: center; 
-      font-size: 2.5rem; 
+      font-size: clamp(1.8rem, 4vw, 2.5rem); 
       font-weight: 700;
       margin-bottom: 1rem;
       color: var(--text-color);
+      word-wrap: break-word;
     }
     
     .section-subtitle {
       text-align: center;
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
       color: var(--text-light);
       margin-bottom: 3rem;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      word-wrap: break-word;
     }
 
-    /* Improved grid and card styling */
+    /* Grid and cards */
     .grid { 
       display: grid; 
-      gap: 2rem; 
-    }
-    
-    .grid-2 { 
-      grid-template-columns: repeat(2, 1fr); 
+      gap: 1.5rem; 
+      width: 100%;
     }
     
     .grid-3 { 
-      grid-template-columns: repeat(3, 1fr); 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     }
     
     .card {
       background: var(--surface); 
       border: 1px solid var(--border); 
       border-radius: 1rem;
-      padding: 2rem; 
+      padding: 1.5rem; 
       text-align: center; 
       box-shadow: var(--shadow);
       transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
+      cursor: pointer;
+      width: 100%;
+      max-width: 100%;
     }
     
     .card:hover {
@@ -240,86 +318,19 @@
       color: var(--text-color);
     }
     
-    .card p { 
-      font-size: 1rem; 
-      color: var(--text-light);
-      line-height: 1.6;
-    }
-
-    /* Added about section styling */
-    .about-section {
-      background: var(--surface);
-    }
-    
-    .about-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    
-    .about-text h2 {
-      text-align: left;
-      margin-bottom: 1.5rem;
-    }
-    
-    .about-text p {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-      color: var(--text-light);
-    }
-    
-    .about-image {
-      position: relative;
-      border-radius: 1rem;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-    }
-    
-    .about-image img {
-      width: 100%;
-      height: 400px;
-      object-fit: cover;
-    }
-
-    /* Enhanced stats section */
-    .stats-section {
-      background: var(--primary-color);
-      color: white;
-      text-align: center;
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
-      margin-top: 3rem;
-    }
-    
-    .stat-item h3 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--secondary-color);
-    }
-    
-    .stat-item p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-
     /* Enhanced footer styling */
     footer {
       background: var(--text-color); 
       color: white;
       text-align: center; 
-      padding: 3rem 2rem 2rem;
+      padding: 3rem 1rem 2rem;
+      width: 100%;
     }
     
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
+      width: 100%;
     }
     
     .footer-links {
@@ -327,6 +338,7 @@
       justify-content: center;
       gap: 2rem;
       margin-bottom: 2rem;
+      flex-wrap: wrap;
     }
     
     footer a { 
@@ -346,64 +358,149 @@
       margin-top: 2rem;
       color: #9ca3af;
     }
+    
+    .footer-bottom p {
+      margin-bottom: 0.5rem;
+    }
 
-    /* Enhanced responsive design */
-    @media(max-width: 900px) {
-      .grid-3, .grid-2, .about-content, .stats-grid { 
+    /* Responsive design */
+    @media(max-width: 768px) {
+      /* Mostrar hamburguesa y ocultar menú desktop */
+      .hamburger {
+        display: flex;
+      }
+      
+      .nav-links:not(.mobile) {
+        display: none;
+      }
+      
+      /* Ajustar navegación */
+      .nav-container {
+        padding: 0.8rem;
+      }
+      
+      /* Hero responsive */
+      .hero {
+        padding: 2rem 0.8rem;
+      }
+      
+      .btn {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        white-space: nowrap;
+      }
+      
+      /* Grid responsive */
+      .grid-3 { 
         grid-template-columns: 1fr; 
+        gap: 1.2rem;
       }
       
-      .hero h1 { 
-        font-size: 2.5rem; 
+      /* Sections responsive */
+      section {
+        padding: 2.5rem 0.8rem;
       }
       
-      .hero p {
+      /* Cards responsive */
+      .card {
+        padding: 1.2rem;
+      }
+      
+      .card h3 {
         font-size: 1.1rem;
       }
       
-      .nav-container {
-        padding: 1rem;
-      }
-      
-      .nav-links {
-        gap: 1rem;
-      }
-      
-      section {
-        padding: 3rem 1rem;
-      }
-      
-      .about-content {
-        gap: 2rem;
-      }
-      
-      .footer-links {
-        flex-direction: column;
-        gap: 1rem;
+      .card p {
+        font-size: 0.9rem;
+        line-height: 1.5;
       }
     }
     
-    @media(max-width: 600px) {
+    @media(max-width: 480px) {
+      /* Mobile pequeño */
+      .nav-container {
+        padding: 0.5rem;
+      }
+      
       .hero {
-        padding: 4rem 1rem;
+        padding: 1.5rem 0.5rem;
       }
       
-      .hero h1 {
-        font-size: 2rem;
+      .btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
       }
       
-      section h2 {
-        font-size: 2rem;
+      section {
+        padding: 2rem 0.5rem;
       }
       
-      .nav-links {
-        display: none;
+      .card {
+        padding: 1rem;
+      }
+      
+      .card-icon {
+        width: 45px;
+        height: 45px;
+        margin-bottom: 0.8rem;
+      }
+      
+      /* Ajustar logo en móviles muy pequeños */
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      /* Menu móvil más compacto */
+      .nav-links.mobile {
+        padding: 1rem;
+      }
+      
+      .nav-links.mobile a {
+        padding: 0.8rem;
+        font-size: 1rem;
+        margin: 0.3rem 0;
+      }
+    }
+    
+    /* Footer responsive */
+    @media(max-width: 768px) {
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+      }
+      
+      footer {
+        padding: 2rem 0.8rem 1.5rem;
+      }
+      
+      .footer-bottom p {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+      }
+    }
+    
+    @media(max-width: 480px) {
+      footer {
+        padding: 1.5rem 0.5rem 1rem;
+      }
+      
+      .footer-links {
+        gap: 0.8rem;
+      }
+      
+      footer a {
+        font-size: 0.9rem;
+      }
+      
+      .footer-bottom p {
+        font-size: 0.8rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Enhanced navbar with better structure -->
+  <!-- Navbar -->
   <nav>
     <div class="nav-container">
       <a href="#" class="logo">
@@ -416,139 +513,83 @@
         <a href="#hechos">Explorar</a>
         <a href="login.html">Acceso</a>
       </div>
+      
+      <!-- Hamburger menu button -->
+      <div class="hamburger" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      
+      <!-- Mobile menu -->
+      <div class="nav-links mobile" id="mobileMenu">
+        <a href="#inicio" onclick="closeMobileMenu()">Inicio</a>
+        <a href="#nosotros" onclick="closeMobileMenu()">Nosotros</a>
+        <a href="#hechos" onclick="closeMobileMenu()">Explorar</a>
+        <a href="login.html" onclick="closeMobileMenu()">Acceso</a>
+      </div>
     </div>
   </nav>
 
-  <!-- Enhanced hero section with better content and imagery -->
+  <!-- Hero section -->
   <header class="hero" id="inicio">
-  <div class="hero-content">
-    <h1>MetaMapa</h1>
-    <p>Sistema colaborativo de código abierto para la recopilación, visualización y mapeo de información institucional</p>
-    
-    <div class="hero-actions">
-      <a href="explorar-hechos.html" class="btn">
-        <i data-lucide="search"></i>
-        Explorar Hechos
-      </a>
-    </div>
-  </div>
-</header>
-
-
-<!-- Enhanced examples section with better imagery -->
-<section id="hechos">
-  <h2>Colecciones más buscadas</h2>
-  <p class="section-subtitle">
-    Visualizá las colecciones colaborativas más consultadas por organizaciones.
-  </p>
-  <div class="grid grid-3 responsive-grid">
-    <div class="card"      onclick="window.location.href='coleccion-incendio-forestal.html'" style="cursor:pointer;">
-      <div class="card-icon">
-        <img src="images/Incendio_Forestal.jpg" alt="Incendios Forestales" style="width: 64px; height: 64px;">
-      </div>
-      <h3>Incendios Forestales</h3>
-      <p>Registro colaborativo de focos de incendios forestales.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">
-        <img src="images/choque.jpeg" alt="Accidentes Automovilísticos" style="width: 64px; height: 64px;">
-      </div>
-      <h3>Accidentes Automovilísticos</h3>
-      <p>Accidentes  viales para identificar patrones y desarrollar estrategias de prevención efectivas.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">
-        <img src="images/huracan.jpg" alt="Huracanes" style="width: 64px; height: 64px;">
-      </div>
-      <h3>Huracanes</h3>
-      <p>Registro detallado de huracanes a lo largo del mundo.</p>
-    </div>
-  </div>
-
-  <!-- Botón centrado -->
-  <div style="display: flex; justify-content: center; margin-top: 2rem;">
-    <button class="btn" onclick="window.location.href='buscador-colecciones.html'">
-      Explorar Colecciones
-    </button>
-  </div>
-</section>
-
-
-  <!-- Added comprehensive About Us section -->
-  <section class="about-section" id="nosotros">
-    <div class="about-content">
-      <div class="about-text">
-        <h2>Quiénes Somos</h2>
-        <p>
-          MetaMapa es una iniciativa de <strong>código abierto</strong> desarrollada específicamente para organizaciones que requieren gestionar información colaborativa de manera segura y eficiente.
-        </p>
-        <p>
-          Nuestro sistema está diseñado para <strong>ONGs, universidades y organismos estatales</strong> que necesitan maximizar la disponibilidad y veracidad de los datos mientras protegen la identidad de sus contribuyentes.
-        </p>
-        <p>
-          Creemos en el poder de la colaboración transparente y la tecnología accesible para generar un impacto positivo en la sociedad.
-        </p>
-      </div>
-      <div class="about-image">
-        <img src="images/mapa.png" alt="Equipo colaborativo trabajando en visualización de datos">
+    <div class="hero-content">
+      <h1>MetaMapa</h1>
+      <p>Sistema colaborativo de código abierto para la recopilación, visualización y mapeo de información institucional</p>
+      
+      <div class="hero-actions">
+        <a href="explorar-hechos.html" class="btn">
+          <i data-lucide="search"></i>
+          Explorar Hechos
+        </a>
       </div>
     </div>
-  </section>
+  </header>
 
-  <!-- Added statistics section -->
-  <section class="stats-section">
-    <h2>Nuestro Impacto</h2>
-    <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">
-      Datos que demuestran la efectividad de nuestra plataforma colaborativa
-    </p>
-    <div class="stats-grid">
-      <div class="stat-item">
-        <h3>150+</h3>
-        <p>Organizaciones Activas</p>
-      </div>
-      <div class="stat-item">
-        <h3>25K+</h3>
-        <p>Hechos Documentados</p>
-      </div>
-      <div class="stat-item">
-        <h3>98%</h3>
-        <p>Precisión de Datos</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Enhanced purpose section -->
-  <section>
-    <h2>Propósito y Objetivos</h2>
+  <!-- Collections section -->
+  <section id="hechos">
+    <h2>Colecciones más buscadas</h2>
     <p class="section-subtitle">
-      Facilitamos la gestión colaborativa de información crítica para organizaciones que buscan generar un impacto social positivo
+      Visualizá las colecciones colaborativas más consultadas por organizaciones.
     </p>
-    <div class="grid grid-2">
-      <div class="card">
+    <div class="grid grid-3">
+      <div class="card" onclick="window.location.href='coleccion-incendio-forestal.html'">
         <div class="card-icon">
-          <i data-lucide="shield-check"></i>
+          <i data-lucide="flame"></i>
         </div>
-        <h3>Seguridad y Privacidad</h3>
-        <p>Protegemos la identidad de los contribuyentes mientras garantizamos la integridad y veracidad de los datos recopilados.</p>
+        <h3>Incendios Forestales</h3>
+        <p>Registro colaborativo de focos de incendios forestales.</p>
       </div>
       <div class="card">
         <div class="card-icon">
-          <i data-lucide="users"></i>
+          <i data-lucide="car"></i>
         </div>
-        <h3>Colaboración Efectiva</h3>
-        <p>Facilitamos la colaboración entre múltiples organizaciones para maximizar el impacto y la cobertura de la información.</p>
+        <h3>Accidentes Automovilísticos</h3>
+        <p>Accidentes viales para identificar patrones y desarrollar estrategias de prevención efectivas.</p>
       </div>
+      <div class="card">
+        <div class="card-icon">
+          <i data-lucide="cloud-rain"></i>
+        </div>
+        <h3>Huracanes</h3>
+        <p>Registro detallado de huracanes a lo largo del mundo.</p>
+      </div>
+    </div>
+
+    <!-- Botón centrado -->
+    <div style="display: flex; justify-content: center; margin-top: 2rem;">
+      <button class="btn" onclick="window.location.href='buscador-colecciones.html'">
+        Explorar Colecciones
+      </button>
     </div>
   </section>
 
-
-
-  <!-- Enhanced footer with better organization -->
-  <footer id="legal">
+  <!-- Footer -->
+  <footer>
     <div class="footer-content">
       <div class="footer-links">
         <a href="#hechos">Explorar Hechos</a>
-        <a href="#login">Registro / Iniciar Sesión</a>
+        <a href="login.html">Registro / Iniciar Sesión</a>
         <a href="#">Política de Privacidad</a>
         <a href="#">Términos de Uso</a>
         <a href="#">Contacto</a>
@@ -560,6 +601,54 @@
     </div>
   </footer>
 
-  <script>lucide.createIcons();</script>
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Mobile menu functionality
+    function toggleMobileMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const body = document.body;
+      
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      
+      // Prevenir scroll del body cuando el menú está abierto
+      if (mobileMenu.classList.contains('active')) {
+        body.style.overflow = 'hidden';
+      } else {
+        body.style.overflow = '';
+      }
+    }
+    
+    function closeMobileMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const body = document.body;
+      
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      body.style.overflow = '';
+    }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const hamburger = document.querySelector('.hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const navContainer = document.querySelector('.nav-container');
+      
+      if (!navContainer.contains(event.target) && mobileMenu.classList.contains('active')) {
+        closeMobileMenu();
+      }
+    });
+    
+    // Close mobile menu on window resize if it's open
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 768) {
+        closeMobileMenu();
+      }
+    });
+  </script>
 </body>
 </html>

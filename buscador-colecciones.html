@@ -456,54 +456,13 @@
 
     <div class="search-filters">
       <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Buscar colecciones por nombre, descripción o etiquetas..." id="searchInput">
+        <input type="text" class="search-input" placeholder="Buscar colecciones por nombre, descripción" id="searchInput">
         <button class="search-btn" onclick="filterCollections()">
           <i data-lucide="search"></i> Buscar
         </button>
       </div>
       
-      <div class="filters">
-        <div class="filter-group">
-          <label for="categoryFilter">Categoría:</label>
-          <select id="categoryFilter" class="filter-select" onchange="filterCollections()">
-            <option value="">Todas</option>
-            <option value="ambiental">Ambiental</option>
-            <option value="social">Social</option>
-            <option value="economico">Económico</option>
-            <option value="politico">Político</option>
-            <option value="salud">Salud</option>
-            <option value="educacion">Educación</option>
-            <option value="tecnologia">Tecnología</option>
-          </select>
-        </div>
-        
-        <div class="filter-group">
-          <label for="regionFilter">Región:</label>
-          <select id="regionFilter" class="filter-select" onchange="filterCollections()">
-            <option value="">Todas</option>
-            <option value="argentina">Argentina</option>
-            <option value="brasil">Brasil</option>
-            <option value="chile">Chile</option>
-            <option value="colombia">Colombia</option>
-            <option value="mexico">México</option>
-            <option value="peru">Perú</option>
-            <option value="global">Global</option>
-          </select>
-        </div>
-        
-        <div class="filter-group">
-          <label for="yearFilter">Año:</label>
-          <select id="yearFilter" class="filter-select" onchange="filterCollections()">
-            <option value="">Todos</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-          </select>
-        </div>
-      </div>
-    </div>
+      
 
     <div class="results-info">
       <div class="results-count" id="resultsCount">Mostrando 24 colecciones</div>
@@ -532,12 +491,6 @@
             <span class="stat"><i data-lucide="users"></i> 23 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Argentina</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">incendios</span>
-            <span class="tag">bosques</span>
-            <span class="tag">emergencia</span>
-            <span class="tag">clima</span>
-          </div>
           <div class="card-footer">
             <span class="card-date">Actualizado: 15 Dic 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -557,11 +510,7 @@
             <span class="stat"><i data-lucide="users"></i> 31 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Brasil</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">protestas</span>
-            <span class="tag">derechos</span>
-            <span class="tag">sociedad</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 28 Nov 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -581,11 +530,7 @@
             <span class="stat"><i data-lucide="users"></i> 18 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Chile</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">inflación</span>
-            <span class="tag">empleo</span>
-            <span class="tag">políticas</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 10 Dic 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -605,11 +550,7 @@
             <span class="stat"><i data-lucide="users"></i> 45 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Colombia</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">elecciones</span>
-            <span class="tag">democracia</span>
-            <span class="tag">candidatos</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 5 Nov 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -629,11 +570,7 @@
             <span class="stat"><i data-lucide="users"></i> 29 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> México</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">salud pública</span>
-            <span class="tag">reformas</span>
-            <span class="tag">acceso</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 20 Nov 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -653,11 +590,7 @@
             <span class="stat"><i data-lucide="users"></i> 22 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Perú</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">educación</span>
-            <span class="tag">rural</span>
-            <span class="tag">tecnología</span>
-          </div>
+       
           <div class="card-footer">
             <span class="card-date">Actualizado: 18 Oct 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -677,11 +610,7 @@
             <span class="stat"><i data-lucide="users"></i> 67 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Global</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">IA</span>
-            <span class="tag">regulación</span>
-            <span class="tag">innovación</span>
-          </div>
+         
           <div class="card-footer">
             <span class="card-date">Actualizado: 12 Dic 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -701,11 +630,7 @@
             <span class="stat"><i data-lucide="users"></i> 34 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Brasil</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">amazonía</span>
-            <span class="tag">deforestación</span>
-            <span class="tag">conservación</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 8 Dic 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -725,11 +650,7 @@
             <span class="stat"><i data-lucide="users"></i> 41 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Argentina</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">género</span>
-            <span class="tag">violencia</span>
-            <span class="tag">prevención</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 25 Nov 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -749,11 +670,7 @@
             <span class="stat"><i data-lucide="users"></i> 26 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Global</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">crypto</span>
-            <span class="tag">regulación</span>
-            <span class="tag">fintech</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 3 Dic 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -773,11 +690,7 @@
             <span class="stat"><i data-lucide="users"></i> 52 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Chile</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">constitución</span>
-            <span class="tag">democracia</span>
-            <span class="tag">participación</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 15 Sep 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -797,11 +710,7 @@
             <span class="stat"><i data-lucide="users"></i> 38 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Global</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">salud mental</span>
-            <span class="tag">pandemia</span>
-            <span class="tag">apoyo</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 30 Nov 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -821,11 +730,7 @@
             <span class="stat"><i data-lucide="users"></i> 33 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Colombia</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">educación digital</span>
-            <span class="tag">tecnología</span>
-            <span class="tag">brecha</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 22 Nov 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -845,11 +750,7 @@
             <span class="stat"><i data-lucide="users"></i> 28 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> México</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">contaminación</span>
-            <span class="tag">aire</span>
-            <span class="tag">ciudad</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 14 Oct 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -869,11 +770,7 @@
             <span class="stat"><i data-lucide="users"></i> 44 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Argentina</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">startups</span>
-            <span class="tag">inversión</span>
-            <span class="tag">innovación</span>
-          </div>
+         
           <div class="card-footer">
             <span class="card-date">Actualizado: 6 Dic 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -893,11 +790,7 @@
             <span class="stat"><i data-lucide="users"></i> 36 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Perú</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">migración</span>
-            <span class="tag">integración</span>
-            <span class="tag">políticas</span>
-          </div>
+         
           <div class="card-footer">
             <span class="card-date">Actualizado: 1 Dic 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -917,11 +810,7 @@
             <span class="stat"><i data-lucide="users"></i> 31 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Brasil</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">agronegocio</span>
-            <span class="tag">exportación</span>
-            <span class="tag">sostenibilidad</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 18 Nov 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -941,11 +830,7 @@
             <span class="stat"><i data-lucide="users"></i> 58 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> México</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">elecciones</span>
-            <span class="tag">presidencial</span>
-            <span class="tag">campaña</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 10 Nov 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -965,11 +850,7 @@
             <span class="stat"><i data-lucide="users"></i> 27 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Chile</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">reforma</span>
-            <span class="tag">salud</span>
-            <span class="tag">sistema</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 28 Oct 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -989,11 +870,7 @@
             <span class="stat"><i data-lucide="users"></i> 42 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Global</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">universidad</span>
-            <span class="tag">calidad</span>
-            <span class="tag">acceso</span>
-          </div>
+         
           <div class="card-footer">
             <span class="card-date">Actualizado: 5 Dic 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -1013,11 +890,7 @@
             <span class="stat"><i data-lucide="users"></i> 39 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Colombia</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">biodiversidad</span>
-            <span class="tag">conservación</span>
-            <span class="tag">especies</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 12 Nov 2024</span>
             <button class="view-btn">Ver Colección</button>
@@ -1037,11 +910,7 @@
             <span class="stat"><i data-lucide="users"></i> 48 contribuyentes</span>
             <span class="stat"><i data-lucide="map-pin"></i> Global</span>
           </div>
-          <div class="card-tags">
-            <span class="tag">ciberseguridad</span>
-            <span class="tag">amenazas</span>
-            <span class="tag">protección</span>
-          </div>
+          
           <div class="card-footer">
             <span class="card-date">Actualizado: 9 Dic 2024</span>
             <button class="view-btn">Ver Colección</button>

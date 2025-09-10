@@ -1019,10 +1019,12 @@
                     <div class="fact-actions">
                         <a href="detalle-hecho.html" class="action-btn view-btn">
                             <i data-lucide="eye"></i> Ver Detalles
-                        </a>
-                        <button class="action-btn delete-request-btn" onclick="openDeleteModal('${fact.id}', '${fact.title}')">
-                            <i data-lucide="trash-2"></i> Eliminar
+
                         </button>
+                        <a href="solicitar-eliminacion.html?factId=${fact.id}&factTitle=${encodeURIComponent(fact.title)}" class="action-btn delete-request-btn">
+
+                            <i data-lucide="trash-2"></i> Eliminar
+                        </a>
                     </div>
                 </div>
             `).join('');
